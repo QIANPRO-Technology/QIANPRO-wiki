@@ -1,0 +1,9 @@
+
+> minimal-docs-site@0.0.0 start
+> docusaurus start --port 6086 --host 0.0.0.0
+
+[INFO] Starting the development server...
+[SUCCESS] Docusaurus website is running at: http://localhost:6086/
+[90m[[90mwebpackbar[90m][39m [36mℹ[39m Compiling Client
+[90m[[90mwebpackbar[90m][39m [32m✔[39m Client: Compiled successfully in 968.35ms
+[1mclient[39m[22m (webpack 5.102.1) compiled [1m[32msuccessfully[39m[22m
