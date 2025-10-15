@@ -26,7 +26,7 @@ static/
 
 實際連結：
 
-# [下載說明書](./files/manual_v1.pdf)
-# [下載工具包](./files/tool_v2.zip)
+[下載手冊](/files/manual_v1.pdf)
+[下載工具](/files/tool_v2.zip)
 
 > 部署後，這些連結會對應到公開網址 /files/manual_v1.pdf 等，因為 static/ 目錄會在 build 時原封不動複製到 uild/。

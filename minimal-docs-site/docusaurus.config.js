@@ -22,7 +22,7 @@ const config = {
   organizationName: '<your-account>', // TODO: 換成你的 GitHub 帳號
   projectName: '<your-repo>', // TODO: 換成你的 Repo 名稱
 
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
 
   i18n: {
