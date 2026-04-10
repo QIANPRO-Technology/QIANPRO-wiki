@@ -1,0 +1,52 @@
+name: Deploy Wiki
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+          cache-dependency-path: minimal-docs-site/package-lock.json
+
+      - name: Build
+        run: |
+          cd minimal-docs-site
+          npm ci
+          npm run build
+
+      - name: Connect Tailscale
+        uses: tailscale/github-action@v2
+        with:
+          oauth-client-id: ${{ secrets.TAILSCALE_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TAILSCALE_OAUTH_SECRET }}
+          tags: tag:ci
+
+      - name: Deploy to server
+        env:
+          DEPLOY_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+        run: |
+          echo "$DEPLOY_KEY" > /tmp/deploy_key
+          chmod 600 /tmp/deploy_key
+
+          tar -czf /tmp/wiki-build.tgz -C minimal-docs-site/build .
+
+          scp -i /tmp/deploy_key -o StrictHostKeyChecking=no \
+            /tmp/wiki-build.tgz tsic@100.99.111.69:/tmp/
+
+          ssh -i /tmp/deploy_key -o StrictHostKeyChecking=no tsic@100.99.111.69 "
+            rm -rf ~/services/qianpro-wiki/dist/*
+            tar -xzf /tmp/wiki-build.tgz -C ~/services/qianpro-wiki/dist/
+            rm /tmp/wiki-build.tgz
+            docker restart qianpro-wiki
+          "
+
+          rm /tmp/deploy_key

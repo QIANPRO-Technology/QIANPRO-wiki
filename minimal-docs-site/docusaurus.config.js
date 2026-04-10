@@ -15,7 +15,7 @@ const config = {
   },
 
   // 部署到正式環境時請改成實際網址
-  url: 'https://docs.example.com',
+  url: 'https://wiki.qianpro.shop',
   // 若掛在子路徑（例如 /docs/）記得同步調整 baseUrl
   baseUrl: '/',
 
