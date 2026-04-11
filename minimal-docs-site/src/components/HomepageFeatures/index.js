@@ -4,32 +4,32 @@ import styles from './styles.module.css';
 
 const FeatureList = [
   {
-    title: 'Easy to Use',
+    title: '知識管理',
     Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        整合千鉑科技內部知識，涵蓋 Docusaurus 建站資源、
+        官方文件連結與常用操作指南，讓團隊快速查找所需資訊。
       </>
     ),
   },
   {
-    title: 'Focus on What Matters',
+    title: '工作流程',
     Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        標準化 GitHub 開發流程與自家伺服器部署程序，
+        包含 CI/CD 設定、Nginx 配置與版本回滾策略。
       </>
     ),
   },
   {
-    title: 'Powered by React',
+    title: '技術文件',
     Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        Docusaurus 建站、靜態資源管理、多語系設定與
+        客製化主題，協助團隊快速建立與維護文件站點。
       </>
     ),
   },

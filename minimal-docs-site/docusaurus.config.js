@@ -6,8 +6,8 @@ import {themes as prismThemes} from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'QIANPRO Docs Template',
-  tagline: 'Minimal Docusaurus setup with downloads',
+  title: '千鉑科技 Wiki',
+  tagline: '內部知識庫 · 工作流程 · 技術文件',
   favicon: 'img/favicon.ico',
 
   future: {
@@ -65,10 +65,10 @@ const config = {
         respectPrefersColorScheme: true,
       },
       navbar: {
-        title: 'QIANPRO Docs',
+        title: '千鉑科技 Wiki',
         logo: {
-          alt: 'QIANPRO Docs Logo',
-          src: 'img/logo.svg',
+          alt: 'QIANPRO Logo',
+          src: 'img/qianpro-icon.svg',
         },
         items: [
           {
@@ -77,9 +77,13 @@ const config = {
             position: 'left',
             label: '文件',
           },
-          {to: '/docs/downloads', label: '下載範例', position: 'left'},
           {
-            href: 'https://github.com/<your-account>/<your-repo>',
+            href: 'https://qianpro.shop',
+            label: '官網',
+            position: 'right',
+          },
+          {
+            href: 'https://github.com/QIANPRO-Technology/QIANPRO-wiki',
             label: 'GitHub',
             position: 'right',
           },
@@ -89,50 +93,29 @@ const config = {
         style: 'dark',
         links: [
           {
-            title: 'Docs',
+            title: '文件',
             items: [
               {
                 label: '快速開始',
                 to: '/docs/intro',
               },
-              {
-                label: '下載範例',
-                to: '/docs/downloads',
-              },
             ],
           },
           {
-            title: 'Community',
+            title: '資源',
             items: [
               {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-              },
-              {
-                label: 'Discord',
-                href: 'https://discordapp.com/invite/docusaurus',
-              },
-              {
-                label: 'X',
-                href: 'https://x.com/docusaurus',
-              },
-            ],
-          },
-          {
-            title: 'More',
-            items: [
-              {
-                label: 'Blog',
-                to: '/blog',
+                label: '千鉑科技官網',
+                href: 'https://qianpro.shop',
               },
               {
                 label: 'GitHub',
-                href: 'https://github.com/<your-account>/<your-repo>',
+                href: 'https://github.com/QIANPRO-Technology',
               },
             ],
           },
         ],
-        copyright: `Copyright (c) ${new Date().getFullYear()} QIANPRO Docs Template. Built with Docusaurus.`, 
+        copyright: `Copyright © ${new Date().getFullYear()} 千鉑科技 QIANPRO. Built with Docusaurus.`,
       },
       prism: {
         theme: prismThemes.github,
