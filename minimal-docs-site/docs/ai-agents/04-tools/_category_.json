@@ -1,0 +1,8 @@
+{
+  "label": "Ch 04 · Tool Use",
+  "position": 5,
+  "link": {
+    "type": "generated-index",
+    "description": "讓 Agent 能呼叫外部函式、API、資料庫 — 這是 Agent 最核心的能力。"
+  }
+}

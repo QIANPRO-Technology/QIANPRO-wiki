@@ -1,0 +1,9 @@
+{
+  "label": "AI Agent 實戰課程",
+  "position": 2,
+  "link": {
+    "type": "generated-index",
+    "title": "AI Agent 實戰課程",
+    "description": "以 LangChain / LangGraph 為核心,結合 Microsoft AI Agents for Beginners 的十章課程。學員將從 LLM 基礎走到生產級多 Agent 系統,並學會在本地 vLLM(DGX Spark)上部署。"
+  }
+}

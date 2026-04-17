@@ -1,0 +1,8 @@
+{
+  "label": "Ch 02 · 開發環境",
+  "position": 3,
+  "link": {
+    "type": "generated-index",
+    "description": "Python 環境、LLM 供應商、LangSmith 追蹤,以及在 DGX Spark 上自架 vLLM。"
+  }
+}
