@@ -1,8 +1,10 @@
 ﻿---
 sidebar_position: 1
+sidebar_label: 千鉑Wiki
+title: 千鉑Wiki
 ---
 
-# QIANPRO Wiki
+# 千鉑Wiki
 
 千鉑科技內部知識庫 — 教材、手冊、工作流程、開發筆記。
 
