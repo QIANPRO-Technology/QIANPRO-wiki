@@ -43,6 +43,7 @@ client = MultiServerMCPClient({
 # 拿到所有 tools
 tools = await client.get_tools()
 # 一般用法
+from langchain.agents import create_agent
 agent = create_agent(model=llm, tools=tools)
 ```
 

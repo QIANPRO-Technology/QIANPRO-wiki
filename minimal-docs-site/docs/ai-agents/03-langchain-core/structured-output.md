@@ -112,19 +112,33 @@ ticket = classifier.invoke("登入後 3 秒閃退,每次都會發生")
 
 ### 例 2:資料萃取
 
+LangChain `with_structured_output` 不接受 `list[X]` 作為 schema,要包一層 wrapper:
+
 ```python
+from pydantic import BaseModel
+
 class Person(BaseModel):
     name: str
-    age: int | None
-    email: str | None
+    age: int | None = None
+    email: str | None = None
 
-extractor = llm.with_structured_output(list[Person])
-people = extractor.invoke("""
+class PeopleList(BaseModel):
+    """人員清單 wrapper"""
+    people: list[Person]
+
+extractor = llm.with_structured_output(PeopleList)
+result: PeopleList = extractor.invoke("""
 參加者:
 - 王小明 32 歲 ming@example.com
 - 李小華 wahua@example.com
 """)
+for p in result.people:
+    print(p.name, p.email)
 ```
+
+:::warning 為什麼不直接用 `list[Person]`?
+LangChain 的 schema 必須是 `BaseModel` / `TypedDict` / JSON Schema,**不能是 generic alias**。硬傳 `list[Person]` 會拋 `ValueError: callable ... is neither a BaseModel type nor ...`。統一用 wrapper 最保險。
+:::
 
 ## 錯誤處理
 

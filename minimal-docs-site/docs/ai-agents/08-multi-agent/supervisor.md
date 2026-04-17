@@ -63,7 +63,7 @@ def supervisor(state: Team) -> dict:
 ```python
 from langchain_tavily import TavilySearch
 from langchain_core.messages import AIMessage
-from langgraph.prebuilt import create_agent
+from langchain.agents import create_agent
 
 researcher = create_agent(
     model=llm,

@@ -89,6 +89,7 @@ class MyRetriever(BaseRetriever):
 把 Retriever 包成 tool,讓 Agent 自己決定何時查:
 
 ```python
+from langchain.agents import create_agent
 from langchain.tools.retriever import create_retriever_tool
 
 retriever_tool = create_retriever_tool(

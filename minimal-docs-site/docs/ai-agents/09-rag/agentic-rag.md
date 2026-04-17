@@ -23,7 +23,7 @@ Agentic RAG 把 Retriever 做成 tool,讓 Agent loop 決定。
 
 ```python
 from langchain.tools.retriever import create_retriever_tool
-from langgraph.prebuilt import create_agent
+from langchain.agents import create_agent
 
 retriever_tool = create_retriever_tool(
     retriever=vs.as_retriever(search_kwargs={"k": 4}),

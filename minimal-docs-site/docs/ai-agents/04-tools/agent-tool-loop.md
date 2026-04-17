@@ -65,7 +65,7 @@ LLM 自己拆了兩步:先加再乘。這就是 ReAct。
 上面的 loop 寫死在 Python,不方便加 checkpoint、HITL、並行。LangGraph 提供 `create_agent` 幫你處理好:
 
 ```python
-from langgraph.prebuilt import create_agent
+from langchain.agents import create_agent
 from langchain.chat_models import init_chat_model
 
 llm = init_chat_model("gpt-4o-mini", model_provider="openai")
@@ -77,9 +77,10 @@ result = agent.invoke({
 print(result["messages"][-1].content)
 ```
 
-:::tip
-`langgraph.prebuilt.create_agent` 取代了舊的 `langchain.agents.AgentExecutor`。
-舊的還能用但會 deprecated,新專案一律用 LangGraph。
+:::tip LangChain 1.x 新 API
+- `from langchain.agents import create_agent`(LangChain 1.0+,**本課程使用**)
+- 底層仍是 LangGraph 實作;舊的 `langchain.agents.AgentExecutor` 已 deprecated
+- `langgraph.prebuilt.create_react_agent` 仍可用,但語意較 legacy
 :::
 
 ## 加系統 prompt
