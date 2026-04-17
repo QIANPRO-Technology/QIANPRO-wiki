@@ -191,6 +191,7 @@ print(resp.usage.total_tokens)
 | `400 model not found` | 模型名稱打錯 | 用 `GET /v1/models` 列出可用模型 |
 | `Connection refused` | 不在教室網路、IP 錯 | 確認你跟 gateway 同個網段 |
 | `Timeout` | 模型太大、Prompt 太長 | 降 `max_tokens` 或換小模型 |
+| **`content` 是空字串、`finish_reason=length`** | 思考 token 把 `max_tokens` 用完了 | 把 `max_tokens` 調到 1024+（見 [Reasoning Mode](#reasoning-mode兩個模型都有) 章節）|
 
 ## 列出所有可用模型
 
@@ -223,17 +224,56 @@ for chunk in stream:
         print(delta, end="", flush=True)
 ```
 
-## Gemma4 的 Reasoning Mode
+## Reasoning Mode（兩個模型都有！）
 
-`gemma4-31b` 預設會先做 reasoning（思考過程），再輸出答案。如果你看到回應 `content` 是空字串但 `reasoning_content` 有東西，那是 **思考 token 把 max_tokens 用完了**。解法：
+:::danger 最容易踩到的坑
+`gemma4-31b` **和** `qwen3-14b` 預設都會先輸出 reasoning（思考過程）再給答案。如果你看到：
+- `content` 是空字串 `""`
+- `reasoning_content` 塞滿一堆文字
+- `finish_reason` 是 `"length"`
+
+就是 **思考 token 把 `max_tokens` 全用光，答案還沒生出來就被截斷了**。
+:::
+
+### 解法：把 `max_tokens` 開夠大（目前唯一可靠方式）
+
+實測結果：就算只是問「你是誰？一句話」，gemma4-31b 也會用掉 200+ tokens 思考，剩幾十 token 才吐答案。
+
+| 場景 | 建議 max_tokens |
+|------|----------------|
+| 簡單問答、分類 | **≥ 500** |
+| Agent tool-calling | **≥ 1024** |
+| 長回應、複雜推理 | **≥ 2048** |
 
 ```python
 resp = client.chat.completions.create(
     model="gemma4-31b",
     messages=[...],
-    max_tokens=1024,                    # 調高（預設常太小）
-    extra_body={"reasoning": False},    # 或關閉思考模式
+    max_tokens=1024,   # 預設太小，一定要調高
 )
+print(resp.choices[0].message.content)
+```
+
+### 不能用什麼（實測全部無效）
+
+以下這些「關閉思考模式」的寫法在本 gateway 都**不生效**，LiteLLM / Ollama 不認：
+
+```python
+# ❌ 全都不工作（實測 2026-04-18）
+extra_body={"reasoning": False}        # → 400 cannot unmarshal bool
+extra_body={"think": False}             # → 靜默忽略，照樣 reasoning
+extra_body={"reasoning_effort": "low"}  # → 靜默忽略
+messages=[{"role":"user","content":"/no_think ..."}]  # qwen3 的前綴也不工作
+```
+
+### 取得 reasoning 過程（想看的話）
+
+`reasoning_content` 欄位一定會有，可以印出來教學示範：
+
+```python
+msg = resp.choices[0].message
+print("思考過程:", msg.reasoning_content)   # 或 msg.model_extra.get("reasoning_content")
+print("最終答案:", msg.content)
 ```
 
 ## 切換到雲端 API（課程後半）
