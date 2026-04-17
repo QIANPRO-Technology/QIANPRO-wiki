@@ -1,32 +1,25 @@
-﻿---
+---
 id: downloads
 slug: /downloads
-title: 下載資源範例
+title: 下載資源
+sidebar_label: 下載資源
 ---
 
-# 下載資源範例
+# 下載資源
 
-這個頁面示範如何在 Docusaurus 中連結 static/files/ 內的下載檔。
+此頁匯整可直接下載的共用檔案（說明書、工具包、範本等）。
 
-## 預設結構
+## 如何新增下載檔
 
-`ash
-static/
-  files/
-    manual_v1.pdf
-    tool_v2.zip
-`
+將檔案放到 `minimal-docs-site/static/files/`，然後在此頁用以下語法引用：
 
-## Markdown 連結
+```md
+[說明書](/files/manual_v1.pdf)
+[工具包](/files/tool_v2.zip)
+```
 
-`md
-# [下載說明書](./files/manual_v1.pdf)
-# [下載工具包](./files/tool_v2.zip)
-`
+`static/` 下的任何檔案會在 build 時原封不動複製到站點根目錄，路徑以 `/` 開頭即可。
 
-實際連結：
+## 目前提供
 
-[下載手冊](/files/manual_v1.pdf)
-[下載工具](/files/tool_v2.zip)
-
-> 部署後，這些連結會對應到公開網址 /files/manual_v1.pdf 等，因為 static/ 目錄會在 build 時原封不動複製到 uild/。
+> 尚無公開下載檔。
