@@ -15,10 +15,10 @@ sidebar_position: 1
 
 ```mermaid
 flowchart LR
-    D1[DAY1<br/>OpenCV 入門] --> D2[DAY2<br/>Mediapipe 姿勢]
-    D1 --> D4[DAY4<br/>高解析影像]
-    D2 --> D5[DAY5<br/>CustomTkinter GUI]
-    D3[DAY3<br/>YOLO11 微調] --> D6[DAY6<br/>智慧檢測整合]
+    D1["DAY1\nOpenCV 入門"] --> D2["DAY2\nMediapipe 姿勢"]
+    D1 --> D4["DAY4\n高解析影像"]
+    D2 --> D5["DAY5\nCustomTkinter GUI"]
+    D3["DAY3\nYOLO11 微調"] --> D6["DAY6\n智慧檢測整合"]
     D5 --> D6
     D4 --> D6
     style D1 fill:#e1f5ff
