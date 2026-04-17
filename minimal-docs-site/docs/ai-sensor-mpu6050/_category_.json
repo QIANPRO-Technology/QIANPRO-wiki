@@ -1,9 +1,9 @@
 {
-  "label": "AI × IMU 感測實戰（Pico 2 W + MPU6050）",
-  "position": 3,
+  "label": "EdgeAI 實戰課程",
+  "position": 4,
   "link": {
     "type": "generated-index",
-    "title": "AI × IMU 感測實戰",
+    "title": "EdgeAI 實戰課程",
     "description": "以 Raspberry Pi Pico 2 W 與 MPU6050 三軸 IMU 為教材，從硬體接線、資料擷取、Edge Impulse 訓練、裝置端推論到 Wi-Fi/MQTT 上傳的完整 AIoT 流程。對應 GitHub 專案 AIforSensor-MPU6050。"
   }
 }

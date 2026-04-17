@@ -1,9 +1,9 @@
 {
-  "label": "Computer Vision 6 日課程",
-  "position": 3,
+  "label": "Vision 實戰課程",
+  "position": 5,
   "link": {
     "type": "generated-index",
-    "title": "Computer Vision 6 日課程",
+    "title": "Vision 實戰課程",
     "description": "從 OpenCV 入門、Mediapipe 姿勢辨識，到 YOLO11 微調與 CustomTkinter GUI 整合的 6 日完整教材。GitHub Repo：https://github.com/harry123180/ComputerVisioncourse"
   }
 }
