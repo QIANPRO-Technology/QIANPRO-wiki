@@ -8,7 +8,7 @@ import {themes as prismThemes} from 'prism-react-renderer';
 const config = {
   title: '千鉑科技 Wiki',
   tagline: '內部知識庫 · 工作流程 · 技術文件',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/favicon.svg',
 
   future: {
     v4: true,
@@ -44,17 +44,7 @@ const config = {
           sidebarPath: './sidebars.js',
           editUrl: 'https://github.com/<your-account>/<your-repo>/tree/main/minimal-docs-site/',
         },
-        blog: {
-          showReadingTime: true,
-          feedOptions: {
-            type: ['rss', 'atom'],
-            xslt: true,
-          },
-          editUrl: 'https://github.com/<your-account>/<your-repo>/tree/main/minimal-docs-site/',
-          onInlineTags: 'warn',
-          onInlineAuthors: 'warn',
-          onUntruncatedBlogPosts: 'warn',
-        },
+        blog: false,
         theme: {
           customCss: './src/css/custom.css',
         },
@@ -65,15 +55,16 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
-      image: 'img/docusaurus-social-card.jpg',
+      image: 'img/qianpro-logo.png',
       colorMode: {
         respectPrefersColorScheme: true,
       },
       navbar: {
         title: '千鉑科技 Wiki',
         logo: {
-          alt: 'QIANPRO Logo',
+          alt: '千鉑科技 QianPro Logo',
           src: 'img/qianpro-icon.svg',
+          srcDark: 'img/qianpro-logo-transparent.png',
         },
         items: [
           {

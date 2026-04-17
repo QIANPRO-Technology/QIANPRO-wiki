@@ -33,6 +33,27 @@ sidebar_position: 1
 
 ---
 
+### Computer Vision 6 日課程
+
+從 OpenCV 入門一路到 YOLO11 微調與 CustomTkinter GUI 整合的完整 6 日教材。
+
+**適合對象**：想把電腦視覺應用在檢測、量測或姿勢分析的工程師與學員。
+
+**章節一覽**：
+
+| 天 | 主題 | 重點 |
+|----|------|------|
+| DAY1 | OpenCV 入門 | 讀檔、灰階、Canny、HoughCircles |
+| DAY2 | Mediapipe 姿勢辨識 | Pose 33 landmarks、深蹲計數 |
+| DAY3 | YOLO11 微調 | Ultralytics、data.yaml、mAP |
+| DAY4 | 高解析影像處理 | Bayer demosaic、圓點定位 |
+| DAY5 | CustomTkinter GUI | BGR→RGB→Tk、物件導向 GUI |
+| DAY6 | 智慧檢測整合 | YOLO + GUI + PyInstaller |
+
+👉 [進入課程首頁](./computer-vision-course/overview)
+
+---
+
 ## 其他資源
 
 - [下載資源](./downloads)
