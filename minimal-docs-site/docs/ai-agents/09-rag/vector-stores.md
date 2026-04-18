@@ -122,25 +122,16 @@ compressed = ContextualCompressionRetriever(
 
 品質顯著提升,代價是多一次 batch 推論(cross-encoder 很快)。
 
-## 自架 Embedding(配本地 vLLM)
+## 地端 Embedding 的概念
 
-vLLM 也支援 embedding 模型:
-
-```bash
-docker run -d --gpus all -p 8001:8000 \
-  vllm/vllm-openai:latest \
-  --model BAAI/bge-m3 \
-  --task embed
-```
-
-LangChain 端:
+Embedding 模型同樣可以架在內網、提供 OpenAI 相容介面。LangChain 端只要指定 `base_url`:
 
 ```python
 from langchain_openai import OpenAIEmbeddings
 
 emb = OpenAIEmbeddings(
-    model="BAAI/bge-m3",
-    base_url="http://dgx-spark:8001/v1",
+    model="bge-m3",
+    base_url="http://embedding-gateway/v1",  # infra 團隊提供
     api_key="EMPTY",
 )
 ```

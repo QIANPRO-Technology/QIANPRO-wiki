@@ -133,7 +133,7 @@ main = builder.compile()
 ## 執行
 
 ```python
-result = main.invoke({"topic": "vLLM on edge devices"})
+result = main.invoke({"topic": "如何在企業內部導入 AI Agent"})
 print(result["report"])
 ```
 

@@ -79,46 +79,41 @@ async def chat_stream(req: ChatReq):
 uvicorn app:app --host 0.0.0.0 --port 8000 --workers 4
 ```
 
-## 方式三:搭配本地 vLLM(千鉑課程用)
+## 方式三:全在地部署(資料敏感)
 
-把 LLM 與 Agent 都在地端:
+把 Agent 與 LLM 後端都放公司內網 — LLM 後端(OpenAI 相容)由基礎設施團隊負責架設,Agent 端只需設定 `OPENAI_BASE_URL`:
 
 ```mermaid
 flowchart LR
     U[Web UI<br/>Streamlit] -->|HTTP| API[FastAPI<br/>Agent 服務]
-    API -->|OpenAI 相容| V[vLLM<br/>DGX Spark]
+    API -->|OpenAI 相容| LLM[LLM Gateway<br/>OpenAI-compatible]
     API <-->|Checkpointer| P[(Postgres)]
     API <-->|Retrieve| Q[(Qdrant<br/>Vector)]
-    V -->|推論| G[GPU<br/>GX10-A + GX10-B]
-    style V fill:#fff4e1
-    style G fill:#ffe1e1
+    style LLM fill:#fff4e1
     style API fill:#e1f5ff
 ```
 
-所有元件都可用 Docker compose:
+重點元件與職責:
+
+| 元件 | 職責 |
+|------|------|
+| Web UI | 使用者介面 |
+| FastAPI Agent | 業務邏輯、State 管理 |
+| LLM Gateway | 統一介面、token 計量、模型切換 |
+| Postgres | Checkpointer(LangGraph state 持久化) |
+| Qdrant / PGVector | 向量檢索(RAG) |
+
+Agent 端範例 docker-compose 服務(**不含 LLM 後端**,由 infra 另外提供):
 
 ```yaml
-# docker-compose.yml(精簡版)
 services:
   agent-api:
     build: .
     ports: ["8000:8000"]
     environment:
-      OPENAI_BASE_URL: http://vllm:8000/v1
-      OPENAI_API_KEY: EMPTY
-    depends_on: [vllm, postgres, qdrant]
-
-  vllm:
-    image: vllm/vllm-openai:latest
-    deploy:
-      resources:
-        reservations:
-          devices: [{driver: nvidia, count: all, capabilities: [gpu]}]
-    command: >
-      --model meta-llama/Llama-3.3-70B-Instruct
-      --tensor-parallel-size 2
-      --enable-auto-tool-choice
-      --tool-call-parser llama3_json
+      OPENAI_BASE_URL: http://llm-gateway:4000/v1
+      OPENAI_API_KEY: ${LLM_GATEWAY_TOKEN}
+    depends_on: [postgres, qdrant]
 
   postgres:
     image: postgres:16
@@ -130,8 +125,6 @@ services:
     ports: ["6333:6333"]
 ```
 
-詳細的 DGX Spark + Cloudflare Tunnel 設定,在 Claude Code 內呼叫 `/ainode-deploy` 或 `/cf-tunnel` skill。
-
 ## Checklist
 
 部署前檢查:
@@ -141,8 +134,8 @@ services:
 - [ ] 加 rate limit(fastapi-limiter)
 - [ ] CORS 白名單
 - [ ] Checkpointer 用 Postgres,不要 MemorySaver
-- [ ] LangSmith tracing 開啟
+- [ ] Observability 規劃(見 [Observability](./observability.md))
 - [ ] Healthcheck endpoint(`/healthz`)
 - [ ] 最大 recursion_limit 設定(防無限迴圈)
 - [ ] Timeout 設定(防 hang)
-- [ ] Log 進 observability(ELK / Grafana)
+- [ ] Log 進集中 log 平台(ELK / Grafana / CloudWatch)

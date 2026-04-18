@@ -125,5 +125,5 @@ async def chat(q: str):
 
 ## 練習
 
-1. 用 Streamlit 做一個 chat UI,連到本地 vLLM。
+1. 用 Streamlit 做一個 chat UI,連到課程 Gateway(`gemma4-31b`)。
 2. 在 chain 中加一個 tool 呼叫,觀察 `astream_events` 事件順序。

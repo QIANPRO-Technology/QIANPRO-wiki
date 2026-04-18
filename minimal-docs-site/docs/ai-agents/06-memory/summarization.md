@@ -116,7 +116,7 @@ graph = builder.compile(checkpointer=MemorySaver())
 
 - **把摘要放 system message** — LLM 更容易拿來用
 - **保留最近 2-4 條原文** — 摘要無法完整保留語氣、細節
-- **監控 token** — 用 LangSmith 看實際 context 長度,定門檻
+- **監控 token** — 用 callback / log 記錄實際 context 長度,設門檻告警
 
 ## 練習
 

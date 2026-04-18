@@ -62,7 +62,7 @@ graph.invoke(None, config=new_config)
 
 ## 視覺化
 
-LangGraph Studio 有 time travel UI — 直接在瀏覽器點每個 checkpoint,分岔、比較。搭配 LangSmith trace 效果很好。
+LangGraph Studio 有 time travel UI — 直接在瀏覽器點每個 checkpoint,分岔、比較,對教學示範很方便。
 
 ## Ch 07 總結
 

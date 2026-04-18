@@ -3,6 +3,6 @@
   "position": 3,
   "link": {
     "type": "generated-index",
-    "description": "Python 環境、LLM 供應商、LangSmith 追蹤,以及在 DGX Spark 上自架 vLLM。"
+    "description": "Python 環境、LLM 供應商選擇,以及千鉑教室的課程 API Gateway。"
   }
 }

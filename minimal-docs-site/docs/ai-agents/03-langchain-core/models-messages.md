@@ -76,16 +76,17 @@ print(chat("那 dict comp 呢?"))  # 會記得前一題
 ```python
 from langchain.chat_models import init_chat_model
 
-llm = init_chat_model("gpt-4o-mini", model_provider="openai")
-# 或
-llm = init_chat_model("claude-3-5-haiku-latest", model_provider="anthropic")
-# 或本地 vLLM
+# 千鉑教室 Gateway(課程預設)
 llm = init_chat_model(
-    "Llama-3.3-70B-Instruct",
+    "gemma4-31b",
     model_provider="openai",
-    base_url="http://dgx-spark:8000/v1",
-    api_key="EMPTY",
+    base_url="http://192.168.1.101:4000/v1",
+    api_key="sk-你的-token",
+    max_tokens=1024,
 )
+# 或雲端
+llm = init_chat_model("gpt-4o-mini", model_provider="openai")
+llm = init_chat_model("claude-3-5-haiku-latest", model_provider="anthropic")
 ```
 
 接下來所有程式都用這種寫法,切換不改業務邏輯。
@@ -124,10 +125,10 @@ results = asyncio.run(llm.abatch([[HumanMessage("Q")] for _ in range(10)]))
 | `AuthenticationError` | `OPENAI_API_KEY` 沒設或過期 |
 | `RateLimitError` | 改用 `max_retries` 或加 `tenacity` retry |
 | `ContextLengthExceededError` | 訊息太多,改用 Ch 06 的摘要/trim |
-| 本地 vLLM 回純文字 | 啟動沒加 `--enable-auto-tool-choice` |
+| `content` 是空字串 | reasoning mode 把 token 吃光,`max_tokens` 調到 ≥ 1024 |
 
 ## 練習
 
-1. 用 `init_chat_model` 同時起 `gpt-4o-mini` 和本地 vLLM,問同一題比較差異。
-2. 觀察 `resp.usage_metadata` 與 `resp.response_metadata`,記錄 token 成本。
+1. 用 `init_chat_model` 同時起 `gemma4-31b` 和 `qwen3-14b`,問同一題比較差異。
+2. 觀察 `resp.usage_metadata` 與 `resp.response_metadata`,記錄 token 用量。
 3. 寫一個簡單的 CLI chat 迴圈(hint:`while True: print(chat(input()))`)。

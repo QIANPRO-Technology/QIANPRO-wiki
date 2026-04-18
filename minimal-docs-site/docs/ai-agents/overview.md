@@ -7,7 +7,7 @@ sidebar_position: 1
 
 # AI Agent 實戰課程
 
-本課程以 **LangChain / LangGraph** 為主軸,結合 Microsoft 官方的「AI Agents for Beginners」內容,帶你從零打造可上線的 AI Agent 系統。全程使用 Python,並以本地 vLLM(DGX Spark)為推理端點示範。
+本課程以 **LangChain / LangGraph** 為主軸,結合 Microsoft 官方的「AI Agents for Beginners」內容,帶你從零打造可上線的 AI Agent 系統。全程使用 Python,以 **千鉑教室 LiteLLM Gateway**(OpenAI 相容)為推理端點。
 
 ## 學習路徑
 
@@ -36,15 +36,14 @@ flowchart LR
 - 用 LangChain 組裝模型、訊息、工具與結構化輸出。
 - 用 LangGraph 建立帶狀態的工作流與多 Agent 系統。
 - 實作 RAG、長期記憶與 Human-in-the-Loop。
-- 在 DGX Spark 上以 vLLM 自架 OpenAI 相容 API。
-- 用 LangSmith 做可觀測性、以 MCP 串接外部工具。
+- 以 MCP 串接外部工具、了解 Agent 的可觀測性與生產部署原則。
 
 ## 課程章節
 
 | # | 章節 | 重點 |
 |---|------|------|
 | 01 | [AI Agent 概念](./01-foundation/what-is-agent.md) | 什麼是 Agent、Agent 類型、使用情境 |
-| 02 | [開發環境](./02-environment/python-setup.md) | Python / API key / vLLM on DGX Spark |
+| 02 | [開發環境](./02-environment/python-setup.md) | Python / LLM 供應商 / 課程 API Gateway |
 | 03 | [LangChain 核心](./03-langchain-core/overview.md) | Models / Messages / Prompts / Structured Output / Streaming |
 | 04 | [Tool Use](./04-tools/tool-concept.md) | 工具呼叫、自訂 Tool、Agent Loop |
 | 05 | [LangGraph 入門](./05-langgraph-intro/why-graph.md) | StateGraph / Node / Edge / Reducer |
@@ -52,14 +51,13 @@ flowchart LR
 | 07 | [Human-in-the-Loop](./07-hitl/breakpoints.md) | Breakpoint / Interrupt / 編輯 state |
 | 08 | [Multi-Agent](./08-multi-agent/patterns.md) | Supervisor / 平行化 / 研究助理範例 |
 | 09 | [RAG](./09-rag/rag-basics.md) | Vector Store / Retriever / Agentic RAG |
-| 10 | [生產部署](./10-production/observability.md) | LangSmith / 部署 / MCP / Guardrails |
+| 10 | [生產部署](./10-production/observability.md) | Observability / 部署 / MCP / Guardrails |
 
 ## 環境需求
 
 - Python 3.11 / 3.12 / 3.13
-- OpenAI / Anthropic API key(或自架 vLLM)
-- LangSmith 帳號(免費層即可)
-- DGX Spark(選配,課程後半會用到)
+- 千鉑教室 API token(由講師發放,詳見 [課程 API Gateway](./02-environment/course-api-gateway.md))
+- 基本 pip / venv 能力
 
 ## 參考資料
 
@@ -71,6 +69,6 @@ flowchart LR
 
 :::tip 講師備忘
 - 每章節後預留「討論題」與「延伸閱讀」連結。
-- 範例程式碼都以 OpenAI 相容 API 撰寫,切換到本地 vLLM 只需改 `base_url`。
+- 範例程式碼都以 OpenAI 相容 API 撰寫,學員只要改 `base_url` 與 `api_key` 即可使用課程 Gateway。
 - 本 wiki 為千鉑科技內部教材,學員可查閱 [下載區](/docs/downloads) 取得完整 code sample。
 :::

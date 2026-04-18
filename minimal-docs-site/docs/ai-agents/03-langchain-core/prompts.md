@@ -90,22 +90,31 @@ chain = final | llm
 print(chain.invoke({"input": "9 + 10"}).content)  # "19"
 ```
 
-## Prompt 版本管理(LangSmith Hub)
+## Prompt 版本管理
+
+生產環境 Prompt 變動頻繁,建議把 prompt 當程式碼管理:
+
+1. **放在 repo 裡** — 每個 prompt 一個 `.md` 或 `.py` 檔,走 PR review
+2. **用環境變數切版本** — `PROMPT_VERSION=v2` 切換,方便 A/B 測試
+3. **記錄到 log** — 每次 invoke 都帶上 prompt hash 或版本號,出問題能追溯
 
 ```python
-from langchain import hub
+# 簡單版:prompt 當 python module
+# prompts/research.py
+from langchain_core.prompts import ChatPromptTemplate
 
-prompt = hub.pull("rlm/rag-prompt")   # 官方共享的 RAG prompt
+RESEARCH_PROMPT_V1 = ChatPromptTemplate.from_messages([
+    ("system", "你是研究員..."),
+    ("human", "{question}"),
+])
 ```
 
-自己 prompt 也可以 push:
+使用時 import:
 
 ```python
-hub.push("qianpro/course-intro", prompt)
-# 同事可以 hub.pull("qianpro/course-intro")
+from prompts.research import RESEARCH_PROMPT_V1
+chain = RESEARCH_PROMPT_V1 | llm
 ```
-
-課程、學生作業可以統一用 hub 管理版本。
 
 ## 寫好 Prompt 的檢查清單
 

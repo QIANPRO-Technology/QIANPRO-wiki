@@ -120,7 +120,7 @@ emb = HuggingFaceEmbeddings(model_name="BAAI/bge-m3")
 4. **Rerank** — top-20 向量 → rerank → top-4 塞 prompt
 5. **Query 改寫** — 使用者問法 → 標準化查詢
 6. **答不出來就說不知道** — prompt 一定要寫
-7. **Observability** — LangSmith 看每次檢索到什麼
+7. **Observability** — 用 callback / log 記錄每次檢索到什麼
 
 ## 檢查清單
 

@@ -57,9 +57,6 @@ chromadb
 tavily-python       # 網路搜尋
 duckduckgo-search
 
-# Observability
-langsmith>=0.1
-
 # 實用
 python-dotenv
 rich
@@ -76,18 +73,12 @@ pip install -r requirements.txt
 建一個 `.env` 在專案根目錄:
 
 ```env
-# OpenAI(或自架 vLLM)
-OPENAI_API_KEY=sk-...
-OPENAI_BASE_URL=https://api.openai.com/v1   # 自架 vLLM 改這裡
+# 千鉑教室 Gateway(OpenAI 相容,由講師發放)
+OPENAI_API_KEY=sk-你的-token
+OPENAI_BASE_URL=http://192.168.1.101:4000/v1
 
-# LangSmith(免費可用,強烈建議開)
-LANGSMITH_API_KEY=ls__...
-LANGSMITH_TRACING=true
-LANGSMITH_PROJECT=ai-agent-course
-
-# 其他工具
+# 其他工具(選配)
 TAVILY_API_KEY=tvly-...
-ANTHROPIC_API_KEY=sk-ant-...
 ```
 
 :::tip `.env` 加進 `.gitignore`
@@ -106,7 +97,7 @@ load_dotenv()  # 自動讀 .env
 ```python
 from langchain_openai import ChatOpenAI
 
-llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+llm = ChatOpenAI(model="gemma4-31b", max_tokens=1024)
 print(llm.invoke("用一句話介紹你自己").content)
 ```
 
@@ -118,7 +109,6 @@ print(llm.invoke("用一句話介紹你自己").content)
 |------|------|
 | **VS Code + Pylance** | 型別提示 |
 | **Jupyter** | 做 notebook 實驗 |
-| **LangSmith UI** | 視覺化 Agent trace |
 | **LangGraph Studio** | 視覺化 Graph 執行流程 |
 
 ## 專案結構建議
@@ -141,6 +131,5 @@ ai-agent-demo/
 
 ## 下一步
 
-- 取得 [LLM 供應商 API key](./llm-providers)
-- 如果有 DGX Spark 硬體,接著看 [vLLM 部署](./vllm-dgx-spark)
-- 開啟 [LangSmith 追蹤](./langsmith)
+- 了解 [LLM 供應商選擇](./llm-providers.md)
+- 取得課程 [API Gateway token](./course-api-gateway.md)(千鉑教室)

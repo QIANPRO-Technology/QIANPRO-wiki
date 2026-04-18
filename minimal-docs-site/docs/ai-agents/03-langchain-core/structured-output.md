@@ -86,11 +86,11 @@ structured_llm = llm.with_structured_output(schema)
 
 | 供應商 | 原生支援 | 備註 |
 |--------|----------|------|
+| 千鉑 Gateway(gemma4-31b / qwen3-14b) | ✅ | 課程實測通過 |
 | OpenAI gpt-4o / mini | ✅ | 最穩定 |
 | Anthropic Claude 3.5 | ✅ | via tool use |
 | Gemini 1.5+ | ✅ | |
-| 本地 vLLM(Llama 3.1+) | ✅ | 需 `--guided-decoding-backend outlines` 或 tool parser |
-| 本地 vLLM(Llama 2) | ❌ | 要用 prompt engineering + 解析 |
+| 其他開源模型(透過 OpenAI 相容後端) | 視模型 | 較舊模型可能需 prompt engineering |
 
 ## 課程實用範例
 
@@ -163,5 +163,5 @@ structured_with_retry = structured_llm.with_retry(
 ## 練習
 
 1. 定義一個 `MeetingSummary` schema(參與者、決議、待辦),從會議逐字稿抽出。
-2. 改用本地 vLLM 測試(別忘了啟動要加 tool parser)。
+2. 比較 `gemma4-31b` 與 `qwen3-14b` 的 schema 遵循程度。
 3. 故意給違反 schema 的資料,觀察錯誤訊息。

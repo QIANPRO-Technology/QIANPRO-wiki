@@ -128,4 +128,4 @@ LLM 會依問題挑對應的 tool。
 ## 練習
 
 1. 組一個 tool list:Tavily + Python REPL + get_time,問 Agent「計算距 2026 年底還有幾天」。
-2. 觀察 LangSmith trace:LLM 挑對了 tool 嗎?
+2. 用 `stream_mode="updates"` 觀察 LLM 挑對 tool 了嗎?

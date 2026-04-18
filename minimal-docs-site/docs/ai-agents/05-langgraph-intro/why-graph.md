@@ -133,7 +133,7 @@ graph = builder.compile()
 - ✅ **Streaming** — 每個節點都能串流
 - ✅ **HITL** — 任意節點可插入人工審核
 - ✅ **視覺化** — 一行畫圖
-- ✅ **Observability** — LangSmith 看每一步
+- ✅ **Observability** — 每個節點都能獨立 log / trace
 
 ## 本章節後續
 

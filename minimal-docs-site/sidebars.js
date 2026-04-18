@@ -16,8 +16,6 @@ const sidebars = {
         {type: 'doc', id: 'ai-agents/environment/python-setup', label: '02.01 Python 環境'},
         {type: 'doc', id: 'ai-agents/environment/llm-providers', label: '02.02 LLM 供應商'},
         {type: 'doc', id: 'ai-agents/environment/course-api-gateway', label: '02.03 課程 API Gateway'},
-        {type: 'doc', id: 'ai-agents/environment/vllm-dgx-spark', label: '02.04 vLLM on DGX Spark'},
-        {type: 'doc', id: 'ai-agents/environment/langsmith', label: '02.05 LangSmith'},
         {type: 'doc', id: 'ai-agents/langchain-core/overview', label: '03.01 LangChain 概覽'},
         {type: 'doc', id: 'ai-agents/langchain-core/models-messages', label: '03.02 Model 與 Messages'},
         {type: 'doc', id: 'ai-agents/langchain-core/prompts', label: '03.03 Prompt Template'},

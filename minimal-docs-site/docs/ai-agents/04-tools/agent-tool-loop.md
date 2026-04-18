@@ -119,9 +119,9 @@ for chunk in agent.stream(
     last.pretty_print()
 ```
 
-## 觀察 trace
+## 觀察執行過程
 
-打開 LangSmith,每一次 Agent 執行都會看到完整樹狀結構:
+用 `stream_mode="updates"` 把每一步印出來,就有完整樹狀結構:
 
 ```
 agent
@@ -132,7 +132,7 @@ agent
 └── final: "= 35"
 ```
 
-這對除錯與教學極有價值。
+這對除錯與教學極有價值。生產環境可以串接 observability 平台(見 Ch 10)把這些資訊集中收集。
 
 ## Ch 04 總結
 
@@ -141,12 +141,12 @@ agent
 - ✅ 用 `@tool` 定義自訂工具
 - ✅ 用 `with_structured_output` 讓 LLM 產出結構資料
 - ✅ 用 `create_agent` 讓 LLM 自動呼叫工具
-- ✅ 在 LangSmith 觀察每一步
+- ✅ 用 stream 觀察每一步
 
 下一章我們 **拆開 `create_agent` 的黑盒**,看 LangGraph 怎麼組出這個 Loop。
 
 ## 練習
 
 1. 加一個 `divide(a, b)` 工具,注意除以 0 要處理。
-2. 把 Agent 改用本地 vLLM 跑,對比 GPT-4o-mini 的工具呼叫成功率。
+2. 在同一題上比較 `gemma4-31b` 與 `qwen3-14b` 的工具呼叫成功率。
 3. 問 Agent:「把 100 除以 0,再乘 5」 — 觀察它怎麼處理錯誤。
