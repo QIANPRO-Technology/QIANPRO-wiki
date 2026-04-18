@@ -36,11 +36,17 @@ Gateway 幫你做三件事：**1) 認證**（課程結束 token 就失效）、*
 
 | 項目 | 範例值 |
 |------|--------|
-| **API Base URL** | `http://192.168.1.101:4000/v1` |
+| **API Base URL** | `https://ai.qianpro.shop/v1` |
 | **你的 API Key** | `sk-xxxxxxxxxxxxxxxxxxxxxxx` |
-| **可用模型** | `gemma4-31b`、`qwen3-14b` |
+| **可用模型** | `gemma4-31b`、`gemma4-26b`、`qwen3-14b` |
 | **額度** | 例：USD $5 / RPM 30 |
 | **有效期** | 例：課程結束日 |
+
+:::tip 單一入口，多機分散
+`ai.qianpro.shop` 背後是多台 GPU 機器（GX10-A、GX10-B，之後會加雙卡 5090）。
+LiteLLM Gateway 會根據模型名稱自動路由到對的機器，並在同一模型多台部署時做負載平衡。
+你寫程式時完全不用管機器 IP — 只認模型名稱。
+:::
 
 把 key **當密碼保護**，不要 commit 到 Git、不要貼到公開頻道。
 
@@ -51,7 +57,7 @@ from openai import OpenAI
 
 client = OpenAI(
     api_key="sk-你的-token",
-    base_url="http://192.168.1.101:4000/v1",
+    base_url="https://ai.qianpro.shop/v1",
 )
 
 resp = client.chat.completions.create(
@@ -71,7 +77,7 @@ from langchain.chat_models import init_chat_model
 llm = init_chat_model(
     "gemma4-31b",                               # 模型名
     model_provider="openai",                    # LiteLLM 是 OpenAI 相容
-    base_url="http://192.168.1.101:4000/v1",
+    base_url="https://ai.qianpro.shop/v1",
     api_key="sk-你的-token",
 )
 
@@ -92,7 +98,7 @@ from llama_index.llms.openai import OpenAI
 
 llm = OpenAI(
     model="gemma4-31b",
-    api_base="http://192.168.1.101:4000/v1",
+    api_base="https://ai.qianpro.shop/v1",
     api_key="sk-你的-token",
 )
 ```
@@ -103,7 +109,7 @@ llm = OpenAI(
 
 ```python
 import os
-os.environ["OPENAI_API_BASE"] = "http://192.168.1.101:4000/v1"
+os.environ["OPENAI_API_BASE"] = "https://ai.qianpro.shop/v1"
 os.environ["OPENAI_API_KEY"] = "sk-你的-token"
 os.environ["OPENAI_MODEL_NAME"] = "gemma4-31b"
 ```
@@ -115,7 +121,7 @@ os.environ["OPENAI_MODEL_NAME"] = "gemma4-31b"
 ```python
 config_list = [{
     "model": "gemma4-31b",
-    "base_url": "http://192.168.1.101:4000/v1",
+    "base_url": "https://ai.qianpro.shop/v1",
     "api_key": "sk-你的-token",
 }]
 ```
@@ -125,7 +131,7 @@ config_list = [{
 <summary>curl（快速驗證 / 除錯）</summary>
 
 ```bash
-curl http://192.168.1.101:4000/v1/chat/completions \
+curl https://ai.qianpro.shop/v1/chat/completions \
   -H "Authorization: Bearer sk-你的-token" \
   -H "Content-Type: application/json" \
   -d '{
@@ -137,10 +143,11 @@ curl http://192.168.1.101:4000/v1/chat/completions \
 
 ## 模型怎麼選
 
-| 模型 | 大小 | 強項 | 適用情境 |
-|------|------|------|---------|
-| `gemma4-31b` | 31B | 多模態、推理、繁中 | 課程主力；Agent 工具呼叫、RAG |
-| `qwen3-14b` | 14B | 輕量、吞吐量高 | 高頻 / 平行呼叫多的實驗 |
+| 模型 | 大小 | 強項 | 部署 | 適用情境 |
+|------|------|------|------|---------|
+| `gemma4-31b` | 31B | 多模態、推理、繁中 | GX10-A + GX10-B（自動負載平衡） | 課程主力；Agent 工具呼叫、RAG |
+| `gemma4-26b` | 26B | 較輕量的 Gemma4 | GX10-A | 對話延遲要求較低時 |
+| `qwen3-14b` | 14B | 輕量、吞吐量高 | GX10-B | 高頻 / 平行呼叫多的實驗 |
 
 Rule of thumb：**預設用 `gemma4-31b`**，做批次或並發實驗改 `qwen3-14b`。
 
@@ -152,7 +159,7 @@ Rule of thumb：**預設用 `gemma4-31b`**，做批次或並發實驗改 `qwen3-
 import requests
 
 r = requests.get(
-    "http://192.168.1.101:4000/key/info",
+    "https://ai.qianpro.shop/key/info",
     headers={"Authorization": "Bearer sk-你的-token"},
 )
 info = r.json()["info"]
@@ -196,7 +203,7 @@ print(resp.usage.total_tokens)
 ## 列出所有可用模型
 
 ```bash
-curl http://192.168.1.101:4000/v1/models \
+curl https://ai.qianpro.shop/v1/models \
   -H "Authorization: Bearer sk-你的-token"
 ```
 
