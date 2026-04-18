@@ -65,7 +65,13 @@ vs = Chroma.from_documents(chunks, OpenAIEmbeddings(), persist_directory="./vs")
 retriever = vs.as_retriever(search_kwargs={"k": 4})
 
 # 5. Generate
-llm = init_chat_model("gpt-4o-mini", model_provider="openai")
+llm = init_chat_model(
+    "gemma4-31b",
+    model_provider="openai",
+    base_url="http://192.168.1.101:4000/v1",
+    api_key="sk-你的-token",
+    max_tokens=1024,
+)
 
 def rag(q: str) -> str:
     context = "\n\n".join(d.page_content for d in retriever.invoke(q))

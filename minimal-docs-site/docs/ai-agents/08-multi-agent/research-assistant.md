@@ -143,7 +143,7 @@ print(result["report"])
 
 - 加入 HITL:generate_analysts 後先讓使用者審核專家名單
 - 加入 Critic:每個 section 寫完後讓 critic 審稿
-- 換 LLM:複雜統整用 gpt-4o / Claude,個別訪談用 mini
+- 換 LLM:統整用 `gemma4-31b`(較大),個別訪談用 `qwen3-14b`(較快)
 
 ## Ch 08 總結
 

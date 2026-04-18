@@ -46,7 +46,13 @@ def add(a: int, b: int) -> int:
 tools = [multiply, add]
 
 # --- 2. LLM(綁 tools)---
-llm = init_chat_model("gpt-4o-mini", model_provider="openai").bind_tools(tools)
+llm = init_chat_model(
+    "gemma4-31b",
+    model_provider="openai",
+    base_url="http://192.168.1.101:4000/v1",
+    api_key="sk-你的-token",
+    max_tokens=1024,
+).bind_tools(tools)
 
 # --- 3. Node ---
 sys_msg = SystemMessage(content="你是數學助教,可以呼叫工具計算。")

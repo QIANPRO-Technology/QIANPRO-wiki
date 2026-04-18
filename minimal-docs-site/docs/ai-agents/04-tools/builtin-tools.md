@@ -105,7 +105,13 @@ def get_time() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 tools = [TavilySearch(max_results=3), get_time]
-llm = init_chat_model("gpt-4o-mini", model_provider="openai").bind_tools(tools)
+llm = init_chat_model(
+    "gemma4-31b",
+    model_provider="openai",
+    base_url="http://192.168.1.101:4000/v1",
+    api_key="sk-你的-token",
+    max_tokens=1024,
+).bind_tools(tools)
 
 resp = llm.invoke("現在幾點?台灣最近有什麼大新聞?")
 for tc in resp.tool_calls:

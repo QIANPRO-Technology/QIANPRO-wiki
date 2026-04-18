@@ -13,7 +13,13 @@ sidebar_position: 5
 
 ```python
 from langchain.chat_models import init_chat_model
-llm = init_chat_model("gpt-4o-mini", model_provider="openai")
+llm = init_chat_model(
+    "gemma4-31b",
+    model_provider="openai",
+    base_url="http://192.168.1.101:4000/v1",
+    api_key="sk-你的-token",
+    max_tokens=1024,
+)
 
 for chunk in llm.stream("寫一首關於 AI 的短詩"):
     print(chunk.content, end="", flush=True)
@@ -91,7 +97,13 @@ for chunk in graph.stream(input, stream_mode="messages"):
 import streamlit as st
 from langchain.chat_models import init_chat_model
 
-llm = init_chat_model("gpt-4o-mini", model_provider="openai")
+llm = init_chat_model(
+    "gemma4-31b",
+    model_provider="openai",
+    base_url="http://192.168.1.101:4000/v1",
+    api_key="sk-你的-token",
+    max_tokens=1024,
+)
 
 if prompt := st.chat_input("問我任何事"):
     with st.chat_message("assistant"):

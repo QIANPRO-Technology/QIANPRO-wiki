@@ -39,7 +39,13 @@ from langchain.chat_models import init_chat_model
 class Route(BaseModel):
     next: Literal["researcher", "writer", "FINISH"]
 
-llm = init_chat_model("gpt-4o-mini", model_provider="openai")
+llm = init_chat_model(
+    "gemma4-31b",
+    model_provider="openai",
+    base_url="http://192.168.1.101:4000/v1",
+    api_key="sk-你的-token",
+    max_tokens=1024,
+)
 supervisor_llm = llm.with_structured_output(Route)
 
 SUPERVISOR_PROMPT = """你是主管,管理兩個 worker:

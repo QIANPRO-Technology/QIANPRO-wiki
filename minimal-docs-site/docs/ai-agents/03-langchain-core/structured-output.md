@@ -28,7 +28,13 @@ class BugReport(BaseModel):
     fix: str = Field(description="建議修法")
     line_number: int | None = Field(None, description="出錯行號")
 
-llm = init_chat_model("gpt-4o-mini", model_provider="openai")
+llm = init_chat_model(
+    "gemma4-31b",
+    model_provider="openai",
+    base_url="http://192.168.1.101:4000/v1",
+    api_key="sk-你的-token",
+    max_tokens=1024,
+)
 structured_llm = llm.with_structured_output(BugReport)
 
 report: BugReport = structured_llm.invoke("""

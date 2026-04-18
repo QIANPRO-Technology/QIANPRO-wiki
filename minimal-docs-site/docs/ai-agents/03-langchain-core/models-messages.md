@@ -12,13 +12,16 @@ sidebar_position: 2
 所有 ChatModel 共用同一組 API:
 
 ```python
-from langchain_openai import ChatOpenAI
+from langchain.chat_models import init_chat_model
 
-llm = ChatOpenAI(
-    model="gpt-4o-mini",
+llm = init_chat_model(
+    "gemma4-31b",
+    model_provider="openai",
+    base_url="http://192.168.1.101:4000/v1",
+    api_key="sk-你的-token",
     temperature=0,
-    max_tokens=500,
-    timeout=30,
+    max_tokens=1024,
+    timeout=60,
 )
 
 resp = llm.invoke("Hi")

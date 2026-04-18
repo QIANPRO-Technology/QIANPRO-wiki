@@ -58,7 +58,13 @@ result = chain.invoke({"topic": "AI"})
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 
-llm = ChatOpenAI(model="gpt-4o-mini")
+llm = init_chat_model(
+    "gemma4-31b",
+    model_provider="openai",
+    base_url="http://192.168.1.101:4000/v1",
+    api_key="sk-你的-token",
+    max_tokens=1024,
+)
 prompt = ChatPromptTemplate.from_messages([
     ("system", "你是{role},用繁體中文回答。"),
     ("human", "{question}"),

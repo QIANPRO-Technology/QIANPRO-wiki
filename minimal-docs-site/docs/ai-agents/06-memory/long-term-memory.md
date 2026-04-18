@@ -74,7 +74,13 @@ class UserProfile(BaseModel):
     diet: list[str] = Field(default_factory=list, description="飲食限制,如素食、無麩質")
     timezone: str = "Asia/Taipei"
 
-llm = init_chat_model("gpt-4o-mini", model_provider="openai")
+llm = init_chat_model(
+    "gemma4-31b",
+    model_provider="openai",
+    base_url="http://192.168.1.101:4000/v1",
+    api_key="sk-你的-token",
+    max_tokens=1024,
+)
 extractor = llm.with_structured_output(UserProfile)
 ```
 
