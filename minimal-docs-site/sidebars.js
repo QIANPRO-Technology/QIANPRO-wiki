@@ -82,6 +82,21 @@ const sidebars = {
         {type: 'doc', id: 'computer-vision-course/day6-smart-inspection', label: '06. 智慧檢測整合'},
       ],
     },
+    {
+      type: 'category',
+      label: 'OpenWebUI 擴充開發指南',
+      link: {type: 'doc', id: 'openwebui-extensibility/overview'},
+      collapsed: true,
+      items: [
+        {type: 'doc', id: 'openwebui-extensibility/tools', label: '01. Tools'},
+        {type: 'doc', id: 'openwebui-extensibility/pipe-functions', label: '02. Pipe Functions'},
+        {type: 'doc', id: 'openwebui-extensibility/filter-functions', label: '03. Filter Functions'},
+        {type: 'doc', id: 'openwebui-extensibility/action-functions', label: '04. Action Functions'},
+        {type: 'doc', id: 'openwebui-extensibility/mcp', label: '05. MCP 整合'},
+        {type: 'doc', id: 'openwebui-extensibility/pipelines', label: '06. Pipelines'},
+        {type: 'doc', id: 'openwebui-extensibility/common-pitfalls', label: '07. 常見反官方寫法' },
+      ],
+    },
   ],
 };
 
