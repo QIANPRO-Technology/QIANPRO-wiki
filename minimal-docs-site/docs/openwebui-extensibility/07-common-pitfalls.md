@@ -1,13 +1,26 @@
 ---
 id: common-pitfalls
-title: 常見反官方寫法與修法對照
-sidebar_label: 常見反官方寫法
+title: 企業問答PoC 開發常見錯誤範例
+sidebar_label: 常見錯誤範例
 sidebar_position: 8
 ---
 
-# 常見反官方寫法與修法對照
+# 企業問答PoC 開發常見錯誤範例
 
-這一篇用公司實際案例 **「製程數據洞察 Agent」(process_insight v0.2)** 當教材，列出**自己動手逆推寫法時容易踩到的反 pattern**、為什麼該避免、以及對應的官方正統做法。
+## 背景
+
+**企業問答PoC**（站點：[webai.qianpro.shop](https://webai.qianpro.shop)）底層框架是 [OpenWebUI](https://docs.openwebui.com/)。當我們要在上面做客製 Agent、Tool、Filter 時，很容易**沒讀官方擴充文件就自己土法逆推寫法**，寫出來看起來能動、實際上繞過了框架內建的機制，結果：
+
+- 程式碼比該有的肥 2~3 倍
+- 效能差（KV cache 失效、每輪 re-prompt）
+- 維護成本高（schema 跟實作脫鉤、bug fix 要改多處）
+- 行為不穩（自己 parse LLM 回覆遇到邊界案例就壞）
+
+這一篇用公司**實際案例「製程數據洞察 Agent」(`process_insight` v0.2 Pipe)** 當教材，列出我們在第一版就踩到的五個典型錯誤、分析成因，並對照 OpenWebUI 官方正統寫法。
+
+:::info 讀者對象
+這不是給「第一次寫 OpenWebUI 擴充」的人看的入門教材，而是給**已經寫過一版、準備第二版重構**的人看的反省清單。配合 [Tools](./tools) / [Pipe Functions](./pipe-functions) / [Filter Functions](./filter-functions) / [Action Functions](./action-functions) 四篇規格頁看效果最好。
+:::
 
 **TL;DR**：很多「我在 Pipe 裡自己寫 agent loop、手刻 JSON schema、refine 靠使用者打字」的做法，其實都有**官方內建機制幫你做**，不必重造輪子。
 

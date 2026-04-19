@@ -94,7 +94,7 @@ const sidebars = {
         {type: 'doc', id: 'openwebui-extensibility/action-functions', label: '04. Action Functions'},
         {type: 'doc', id: 'openwebui-extensibility/mcp', label: '05. MCP 整合'},
         {type: 'doc', id: 'openwebui-extensibility/pipelines', label: '06. Pipelines'},
-        {type: 'doc', id: 'openwebui-extensibility/common-pitfalls', label: '07. 常見反官方寫法' },
+        {type: 'doc', id: 'openwebui-extensibility/common-pitfalls', label: '07. 常見錯誤範例' },
       ],
     },
   ],
