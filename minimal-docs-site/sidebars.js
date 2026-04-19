@@ -84,7 +84,7 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'OpenWebUI 擴充開發指南',
+      label: '企業問答PoC 擴充開發指南',
       link: {type: 'doc', id: 'openwebui-extensibility/overview'},
       collapsed: true,
       items: [

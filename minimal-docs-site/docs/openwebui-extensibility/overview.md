@@ -1,13 +1,13 @@
 ---
 id: overview
-title: OpenWebUI 擴充開發指南 — 總覽
+title: 企業問答PoC 擴充開發指南 — 總覽
 sidebar_label: 總覽
 sidebar_position: 1
 ---
 
-# OpenWebUI 擴充開發指南
+# 企業問答PoC 擴充開發指南
 
-整理自官方文件 [docs.openwebui.com/features/extensibility](https://docs.openwebui.com/features/extensibility/)。本指南以繁體中文重構，鎖定 **OpenWebUI 0.5+** 的三大擴充入口與兩套外部整合。目標讀者：公司內要動手寫 Agent、Tool、或整合外部系統的工程師。
+**企業問答PoC**（站點：[webai.qianpro.shop](https://webai.qianpro.shop)）底層為 [OpenWebUI](https://docs.openwebui.com/)，本指南整理自其官方文件 [docs.openwebui.com/features/extensibility](https://docs.openwebui.com/features/extensibility/)，以繁體中文重構，鎖定 **OpenWebUI 0.5+** 的三大擴充入口與兩套外部整合。目標讀者：公司內要動手寫 Agent、Tool、或整合外部系統的工程師。
 
 ---
 

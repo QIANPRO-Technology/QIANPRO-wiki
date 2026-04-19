@@ -36,9 +36,9 @@ title: 千鉑Wiki
 
 ## 開發指南
 
-### 🧩 [OpenWebUI 擴充開發指南](./openwebui-extensibility/overview)
+### 🧩 [企業問答PoC 擴充開發指南](./openwebui-extensibility/overview)
 
-官方文件 [docs.openwebui.com](https://docs.openwebui.com/features/extensibility/) 的繁中整理。涵蓋四大 Plugin 類別（Tools / Pipe / Filter / Action）、MCP 整合、Pipelines 獨立 worker，以及實作時常踩到的反官方 pattern 與修法對照。
+**企業問答PoC**（底層為 OpenWebUI，站點：[webai.qianpro.shop](https://webai.qianpro.shop)）擴充機制的繁中整理。涵蓋四大 Plugin 類別（Tools / Pipe / Filter / Action）、MCP 整合、Pipelines 獨立 worker，以及實作時常踩到的反官方 pattern 與修法對照。
 
 **涵蓋**：Native vs Default Function Calling、Valves / UserValves、Manifold 模型、Filter priority/toggle/is_global、Action 彈窗、MCP Streamable HTTP、mcpo proxy、Pipelines 部署。
 
