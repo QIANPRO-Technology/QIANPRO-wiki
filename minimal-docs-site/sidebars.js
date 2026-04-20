@@ -2,7 +2,8 @@
 
 /** @type {import('@docusaurus/plugin-content-docs').SidebarsConfig} */
 const sidebars = {
-  tutorialSidebar: [
+  // ── 課程 Tab ─────────────────────────────────────────────
+  coursesSidebar: [
     'intro',
     'downloads',
     {
@@ -82,9 +83,14 @@ const sidebars = {
         {type: 'doc', id: 'computer-vision-course/day6-smart-inspection', label: '06. 智慧檢測整合'},
       ],
     },
+  ],
+
+  // ── 產品 Tab ─────────────────────────────────────────────
+  productsSidebar: [
+    'products',
     {
       type: 'category',
-      label: '企業問答PoC 擴充開發指南',
+      label: '企業問答PoC',
       link: {type: 'doc', id: 'openwebui-extensibility/overview'},
       collapsed: true,
       items: [
@@ -94,7 +100,7 @@ const sidebars = {
         {type: 'doc', id: 'openwebui-extensibility/action-functions', label: '04. Action Functions'},
         {type: 'doc', id: 'openwebui-extensibility/mcp', label: '05. MCP 整合'},
         {type: 'doc', id: 'openwebui-extensibility/pipelines', label: '06. Pipelines'},
-        {type: 'doc', id: 'openwebui-extensibility/common-pitfalls', label: '07. 常見錯誤範例' },
+        {type: 'doc', id: 'openwebui-extensibility/common-pitfalls', label: '07. 常見錯誤範例'},
       ],
     },
   ],

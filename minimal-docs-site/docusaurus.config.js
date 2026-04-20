@@ -69,9 +69,15 @@ const config = {
         items: [
           {
             type: 'docSidebar',
-            sidebarId: 'tutorialSidebar',
+            sidebarId: 'coursesSidebar',
             position: 'left',
-            label: '文件',
+            label: '課程',
+          },
+          {
+            type: 'docSidebar',
+            sidebarId: 'productsSidebar',
+            position: 'left',
+            label: '產品',
           },
           {
             href: 'https://qianpro.shop',
@@ -89,12 +95,15 @@ const config = {
         style: 'dark',
         links: [
           {
-            title: '文件',
+            title: '課程',
             items: [
-              {
-                label: '快速開始',
-                to: '/docs/intro',
-              },
+              {label: '千鉑Wiki', to: '/docs/intro'},
+            ],
+          },
+          {
+            title: '產品',
+            items: [
+              {label: '企業問答PoC', to: '/docs/openwebui-extensibility/overview'},
             ],
           },
           {
