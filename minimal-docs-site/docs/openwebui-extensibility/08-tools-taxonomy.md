@@ -20,7 +20,7 @@ sidebar_position: 2
 | 3. **Native MCP (HTTP)** | 管理員 → 外部工具 | **外部 server** | MCP Streamable HTTP | 跑遠端 MCP 伺服器 |
 | 4. **MCP via MCPO Proxy** | 管理員 → 外部工具 | 外部 stdio + MCPO | stdio / SSE → OpenAPI | 把 Claude Desktop 類的 MCP 轉進來 |
 | 5. **OpenAPI Servers** | 管理員 → 外部工具 | 外部 REST API | OpenAPI / REST | 任何符合 OpenAPI spec 的服務 |
-| 6. **Open Terminal** | 企業版 | 隔離 Docker container | Shell | 給 LLM 的 sandboxed shell |
+| 6. **Open Terminal** | Settings → Integrations | 獨立 Docker container | Shell | 給 LLM 的 sandboxed shell（需另部署） |
 
 ---
 
@@ -145,15 +145,17 @@ OpenWebUI 會去抓 `/openapi.json`（或指定路徑），**自動把 endpoint 
 
 ---
 
-## 6. Open Terminal（企業版）
+## 6. Open Terminal
 
-隔離的 Docker container 裡開 shell 給 LLM 用。等於把「沙盒裡的 bash」變成 tool。
+**不是**企業版獨有，是一個**獨立 repo 的整合**：[github.com/open-webui/open-terminal](https://github.com/open-webui/open-terminal)。需要另外部署那個 container，再到 OpenWebUI 的 `Settings → Integrations` 啟用。
 
-- 比 Code Interpreter 強（能裝任何 Linux 工具）
-- 比 Workspace Tool 彈性（LLM 自己想 command）
-- 比 Workspace Tool 危險（必須嚴格 container 隔離）
+啟用後，隔離的 Docker container 裡開 shell 給 LLM 用，等於把「沙盒裡的 bash」變成 tool：
 
-大多數企業部署用不到，列在這裡只是讓你知道有這個東西。
+- 比 Code Interpreter 強（能裝任何 Linux 工具、能留檔）
+- 比 Workspace Tool 彈性（LLM 自己想 command，不用事先寫好 method）
+- 比 Workspace Tool 危險（必須嚴格 container 隔離；LLM 若被 prompt injection 可能變成 RCE 通道）
+
+**使用場景**：做**互動式 DevOps agent**（查 log、跑 ansible、debug Linux 配置）、或**讓 LLM 自己 pip install 跑實驗**這種探索型工作。一般企業問答用不到。
 
 ---
 
@@ -178,7 +180,7 @@ OpenWebUI 會去抓 `/openapi.json`（或指定路徑），**自動把 endpoint 
 │   └─ Workspace Tool（Python class Tools）
 │
 └─ 要讓 LLM 跑任意 bash command
-    └─ Open Terminal（企業版）
+    └─ Open Terminal（另部署 container）
 ```
 
 ---
