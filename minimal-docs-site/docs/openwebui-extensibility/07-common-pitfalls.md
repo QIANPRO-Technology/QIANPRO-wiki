@@ -9,20 +9,20 @@ sidebar_position: 8
 
 ## 背景
 
-**企業問答PoC**（站點：[webai.qianpro.shop](https://webai.qianpro.shop)）底層框架是 [OpenWebUI](https://docs.openwebui.com/)。當我們要在上面做客製 Agent、Tool、Filter 時，很容易**沒讀官方擴充文件就自己土法逆推寫法**，寫出來看起來能動、實際上繞過了框架內建的機制，結果：
+**企業問答PoC**（站點：[webai.qianpro.shop](https://webai.qianpro.shop)）底層框架是 [OpenWebUI](https://docs.openwebui.com/)。在上面開發客製 Agent、Tool、Filter 時，開發者很容易**沒讀官方擴充文件就土法逆推寫法**，寫出來看起來能動、實際上繞過了框架內建的機制，結果：
 
 - 程式碼比該有的肥 2~3 倍
 - 效能差（KV cache 失效、每輪 re-prompt）
 - 維護成本高（schema 跟實作脫鉤、bug fix 要改多處）
 - 行為不穩（自己 parse LLM 回覆遇到邊界案例就壞）
 
-這一篇用公司**實際案例「製程數據洞察 Agent」(`process_insight` v0.2 Pipe)** 當教材，列出我們在第一版就踩到的五個典型錯誤、分析成因，並對照 OpenWebUI 官方正統寫法。
+本章以公司**實際案例「製程數據洞察 Agent」(`process_insight` v0.2 Pipe)** 當教材，列出第一版實作即踩到的五個典型錯誤、分析成因，並對照 OpenWebUI 官方正統寫法。
 
 :::info 讀者對象
 這不是給「第一次寫 OpenWebUI 擴充」的人看的入門教材，而是給**已經寫過一版、準備第二版重構**的人看的反省清單。配合 [Tools](./tools) / [Pipe Functions](./pipe-functions) / [Filter Functions](./filter-functions) / [Action Functions](./action-functions) 四篇規格頁看效果最好。
 :::
 
-**TL;DR**：很多「我在 Pipe 裡自己寫 agent loop、手刻 JSON schema、refine 靠使用者打字」的做法，其實都有**官方內建機制幫你做**，不必重造輪子。
+**TL;DR**：常見的「在 Pipe 裡自己寫 agent loop、手刻 JSON schema、refine 靠使用者打字」等做法，其實都有**框架內建機制可替代**，不必重造輪子。
 
 ---
 
@@ -51,7 +51,7 @@ class Pipe:
 
 ### 問題
 
-- **兩層 parse 風險**：LLM 可能把 JSON 包進 ```json fence、前後加說明、漏逗號……你要寫 3 種 fallback regex
+- **兩層 parse 風險**：LLM 可能把 JSON 包進 ```json fence、前後加說明、漏逗號……需要寫 3 種 fallback regex 才能穩定解析
 - **沒走官方 Function Calling**：KV cache 失效、每輪重送完整 system prompt，速度慢
 - **loop state 自己管**：trace 累積、context 爆掉、base64 圖要手動剝
 
@@ -304,7 +304,7 @@ class Filter:
 
 ---
 
-## 我們實際改進路線（process_insight v0.3 草圖）
+## 實際改進路線（process_insight v0.3 草圖）
 
 把 v0.2 的 Pipe **拆開**：
 
@@ -352,7 +352,7 @@ openwebui-functions/
 
 ## 小結決策表
 
-| 你想做… | 選這個 |
+| 目標情境 | 對應擴充點 |
 |---|---|
 | 讓 LLM 呼叫某個後端函式 | [Tool](./tools) |
 | 做一個可選的「模型」／Agent | [Pipe](./pipe-functions)（如果行為簡單，考慮用 Tool + Model Wrapper 取代） |

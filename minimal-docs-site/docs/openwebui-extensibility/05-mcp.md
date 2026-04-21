@@ -7,7 +7,7 @@ sidebar_position: 6
 
 # MCP 整合
 
-**企業問答PoC 原生支援 Model Context Protocol（MCP）Streamable HTTP**（底層 OpenWebUI 0.6.31 起內建）。意思是：你家有現成的 MCP server（Notion、GitHub、內部 CRM…），**不需要寫 Python Tool 包一層** —— 直接在企業問答PoC 掛設定就能用，一個 MCP server 暴露的多個 tool 會被自動發現並呈給 LLM function-call。
+**企業問答PoC 原生支援 Model Context Protocol（MCP）Streamable HTTP**（底層 OpenWebUI 0.6.31 起內建）。意思是：既有的 MCP server（Notion、GitHub、內部 CRM…）**不需要額外寫 Python Tool 包一層** —— 直接在企業問答PoC 掛設定即可，一個 MCP server 暴露的多個 tool 會被自動發現並呈給 LLM function-call。
 
 ---
 
@@ -40,7 +40,7 @@ sidebar_position: 6
 
 ### OAuth 2.1 (Static) 流程
 
-1. 在你的 IdP（Keycloak / Auth0 / Azure AD）建 client，拿到 `client_id` + `client_secret`
+1. 在公司 IdP（Keycloak / Auth0 / Azure AD）建 client，取得 `client_id` + `client_secret`
 2. OpenWebUI External Tools → 新增 → Type = OAuth 2.1 (Static)
 3. 填認證資訊 → 按「Register Client」
 4. 存檔；使用者在聊天 + 裡啟用該 tool 時會走 OAuth consent flow（**彈瀏覽器同意畫面**）

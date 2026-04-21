@@ -7,7 +7,7 @@ sidebar_position: 4
 
 # Filter Functions
 
-**企業問答PoC 具有 middleware 攔截特性** —— Filter Function 跑在所有對話（或被勾選的模型）上，在三個階段切入：送 LLM 前（`inlet`）、串流中（`stream`）、回應完（`outlet`）。你能在這幾個時機改 body、改 token、加 audit log、蓋系統提示。
+**企業問答PoC 具有 middleware 攔截特性** —— Filter Function 跑在所有對話（或被勾選的模型）上，在三個階段切入：送 LLM 前（`inlet`）、串流中（`stream`）、回應完（`outlet`）。開發者可於這幾個時機改 body、改 token、加 audit log、覆寫系統提示。
 
 企業問答PoC 實務上用這個做：
 - 翻譯（使用者打中文 → 轉英文餵 LLM → 回來再譯中）
@@ -187,7 +187,7 @@ class Filter:
         self.valves = self.Valves()
 
     async def inlet(self, body: dict, __user__: Optional[dict] = None) -> dict:
-        # 假設 _get_kb_filenames 從你家 DB 拉清單
+        # 假設 _get_kb_filenames 從公司 DB 拉清單
         files = _get_kb_filenames(self.valves.kb_name)
         injection = f"【知識庫 {self.valves.kb_name}】共 {len(files)} 份：\n" + \
                     "\n".join(f"- {f}" for f in files)

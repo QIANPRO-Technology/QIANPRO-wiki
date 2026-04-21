@@ -7,7 +7,7 @@ sidebar_position: 2
 
 # 企業問答PoC 的 Tools 整合特性
 
-**企業問答PoC 具有 6 類 Tools 整合特性**，不是單一種東西。很多人（包含我）一開始以為「Tools 就是一個東西」，實際上底下包含 **六種不同實作**：有的跑在企業問答PoC 容器內（Python 腳本），有的連外部 HTTP 服務（MCP / OpenAPI），有的是平台內建功能。放在不同 UI 位置、走不同協定、安全性也不一樣。這一篇把企業問答PoC 支援的六類 Tools **一次講清楚**，後面寫 Plugin 時才不會混淆。
+**企業問答PoC 具有 6 類 Tools 整合特性**，並非單一種機制。實作上「Tools」是一個**傘狀概念**，底下涵蓋 **六種不同類型**：有的跑在企業問答PoC 容器內（Python 腳本），有的連外部 HTTP 服務（MCP / OpenAPI），有的是平台內建功能。六類放在不同 UI 位置、走不同協定、安全性也不同。本章列出企業問答PoC 支援的六類 Tools 及其各自的適用情境，讓後續撰寫 Plugin 時能正確選型。
 
 ---
 
@@ -41,7 +41,7 @@ sidebar_position: 2
 
 ---
 
-## 2. Workspace Tools（你寫的 Python）
+## 2. Workspace Tools（管理員撰寫的 Python）
 
 **執行位置**：企業問答PoC **容器內部**，與主站同進程。
 **寫在哪**：工作區 → Tools → 貼 `.py` 原始碼。
@@ -80,7 +80,7 @@ class Tools:
 **設定入口**：管理員設定 → 外部工具 → `+ 新增` → Type 選 **「MCP (Streamable HTTP)」**。
 
 ```
-企業問答PoC  ──  HTTP POST /mcp  ──>  你家 MCP server
+企業問答PoC  ──  HTTP POST /mcp  ──>  外部 MCP server
              <──  JSON-RPC over SSE
 ```
 
@@ -115,7 +115,7 @@ pip install mcpo
 mcpo --port 8000 -- uvx mcp-server-fetch
 ```
 
-**什麼時候用**：你想用的 MCP server 沒有官方 HTTP 變體，只有 stdio 版時。
+**什麼時候用**：目標 MCP server 沒有官方 HTTP 變體、只有 stdio 版時。
 
 ---
 
@@ -195,7 +195,7 @@ mcpo --port 8000 -- uvx mcp-server-fetch
 **影響**：
 - **資料隱私**：Workspace Tools 處理的資料**留在企業問答PoC 伺服器**；External Tools 會把 function 參數送到外部服務。
 - **效能**：Workspace Tools 跟主站同進程，latency 低但吃企業問答PoC 的 CPU/RAM；External 走網路。
-- **維護**：Workspace Tools 你要自己寫、自己 pip；External 只要 server 規格穩，企業問答PoC 這邊幾乎零維護。
+- **維護**：Workspace Tools 需自行撰寫、自行處理 pip 相依；External 只要 server 規格穩定，企業問答PoC 這邊幾乎零維護。
 - **安全**：Workspace Tools 能 access 企業問答PoC 內部資料（可能好可能壞）；External 是隔離邊界清楚。
 
 ---

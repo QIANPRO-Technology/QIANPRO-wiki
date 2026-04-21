@@ -65,7 +65,7 @@ class Tools:
                 "data": {"description": f"搜尋「{query}」…", "done": False},
             })
 
-        # 你的邏輯
+        # 實際邏輯
         results = f"（{max_results} 筆關於 {query} 的結果）"
 
         if __event_emitter__:
@@ -110,7 +110,7 @@ async def query(
 - 預設回 `str` → 會被當 assistant 訊息 append 到對話
 - 想串流中間訊息：**用 `__event_emitter__` 發 `status` 事件**，不要 yield markdown
   （Native mode 下 `message` 事件會被覆蓋）
-- 發 citation 前先 `self.citation = False`，否則框架會自動加 citation 蓋掉你的
+- 發 citation 前先設 `self.citation = False`，否則框架會自動加 citation 覆蓋掉自訂的內容
 
 ---
 

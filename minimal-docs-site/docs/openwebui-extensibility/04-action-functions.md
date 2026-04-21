@@ -7,7 +7,7 @@ sidebar_position: 5
 
 # Action Functions
 
-**企業問答PoC 具有訊息互動按鈕特性** —— Action Function 在 **LLM 回覆的訊息下方加一顆按鈕**，使用者點了就觸發你的 Python 邏輯。可彈窗問使用者結構化輸入、可改訊息內容、可發通知。
+**企業問答PoC 具有訊息互動按鈕特性** —— Action Function 在 **LLM 回覆的訊息下方加一顆按鈕**，使用者點了就觸發對應 Python 邏輯。可彈窗向使用者要結構化輸入、可改訊息內容、可發通知。
 
 企業問答PoC 典型應用：
 - 「匯出 PDF」「重新翻譯」「改寫成更正式語氣」這種 **後處理快捷鍵**
@@ -95,7 +95,7 @@ resp = await __event_call__({
     "type": "confirmation",
     "data": {
         "title": "確定匯出？",
-        "message": "這會把對話存成 PDF 寄到你的 email，確定要繼續嗎？",
+        "message": "這會把對話存成 PDF 並寄到使用者的 email，確定要繼續嗎？",
     },
 })
 # resp 是 True/False

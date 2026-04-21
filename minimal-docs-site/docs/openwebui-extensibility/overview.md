@@ -7,9 +7,9 @@ sidebar_position: 1
 
 # 企業問答PoC 擴充開發指南
 
-**企業問答PoC**（站點：[webai.qianpro.shop](https://webai.qianpro.shop)）是千鉑科技**基於 [OpenWebUI](https://docs.openwebui.com/) 開發**的內部 AI 對話系統。底層框架提供完整的擴充機制，讓我們能在不改動上游程式碼的前提下，把公司的業務邏輯、內部系統、製程資料流程塞進去，變成「會講公司業務的 AI 助手」。
+**企業問答PoC**（站點：[webai.qianpro.shop](https://webai.qianpro.shop)）是千鉑科技**基於 [OpenWebUI](https://docs.openwebui.com/) 開發**的內部 AI 對話系統。底層框架提供完整的擴充機制，開發者得以在不改動上游程式碼的前提下，把公司的業務邏輯、內部系統、製程資料流程整合進去，形成「能處理公司業務的 AI 助手」。
 
-本指南整理**企業問答PoC 具備的擴充特性**與對應的開發方式，目標讀者：公司內要動手寫 Agent、Tool、或整合外部系統的工程師。
+本指南整理**企業問答PoC 具備的擴充特性**與對應的開發方式，目標讀者：公司內負責開發 Agent、Tool、或整合外部系統的工程師。
 
 ---
 

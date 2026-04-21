@@ -7,7 +7,7 @@ sidebar_position: 3
 
 # Pipe Functions
 
-**企業問答PoC 具有自製模型 / Agent 特性** —— 透過 Pipe Function，你能寫一支類別放上去，它會出現在企業問答PoC 頂部的模型下拉選單，使用者選到它就直接進入你寫的 `pipe()` 函式，由你**完整接管整個對話流程**（LLM 呼叫、圖表產生、狀態機、tool-loop 等自己決定）。
+**企業問答PoC 具有自製模型 / Agent 特性** —— 透過 Pipe Function，開發者可撰寫一支類別上傳，它會出現在企業問答PoC 頂部的模型下拉選單；使用者選擇後即直接進入該 `pipe()` 函式，由開發者**完整接管整個對話流程**（LLM 呼叫、圖表產生、狀態機、tool-loop 等自行決定）。
 
 企業問答PoC 的 Pipe 典型用途：
 - 包裝新 LLM 供應商（例：Anthropic、本地 gguf）
@@ -145,7 +145,7 @@ async def pipe(self, body: dict, __user__: dict, __request__: Request):
     )
 ```
 
-**`bypass_filter=True` 必加**，否則會再跑一次 global filter 污染你的 agent 內部呼叫。
+**`bypass_filter=True` 必加**，否則會再跑一次 global filter 污染 agent 的內部呼叫。
 
 ---
 
@@ -201,7 +201,7 @@ class Pipe:
         self.valves = self.Valves()
 
     def _exec_tool(self, tool: str, args: dict) -> str:
-        # 這裡執行你的工具
+        # 此處執行對應工具
         return f"tool {tool} 結果：{args}"
 
     async def pipe(
