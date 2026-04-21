@@ -5,12 +5,12 @@ sidebar_label: Pipelines
 sidebar_position: 7
 ---
 
-# Pipelines
+# Pipelines（獨立 worker）
 
-**Pipelines** 跟 [Pipe Functions](./pipe-functions) **名字像但是不同東西**：
+**企業問答PoC 具有外部 worker 擴充特性** —— Pipelines 讓你把複雜、重運算的邏輯丟到**獨立 Docker 容器**執行，企業問答PoC 主站只當入口。不要跟 [Pipe Functions](./pipe-functions) 搞混：
 
-- **Pipe Function** = 跑在 OpenWebUI 容器**內**的 Python 檔
-- **Pipelines** = 跑在**獨立 Docker** 的 Python 服務（預設 port 9099）
+- **Pipe Function** = 跑在企業問答PoC 容器**內**的 Python 檔
+- **Pipelines** = 跑在**獨立 Docker** 的 Python 服務（預設 port 9099），企業問答PoC 呼叫它
 
 ---
 

@@ -7,13 +7,15 @@ sidebar_position: 3
 
 # Pipe Functions
 
-**Pipe** 是「**讓你自己做一個模型**」。它會出現在 OpenWebUI 頂部的模型下拉選單，使用者選到它就直接進入你寫的 `pipe()` 函式，由你完整接管整個對話流程。
+**企業問答PoC 具有自製模型 / Agent 特性** —— 透過 Pipe Function，你能寫一支類別放上去，它會出現在企業問答PoC 頂部的模型下拉選單，使用者選到它就直接進入你寫的 `pipe()` 函式，由你**完整接管整個對話流程**（LLM 呼叫、圖表產生、狀態機、tool-loop 等自己決定）。
 
-用途：
+企業問答PoC 的 Pipe 典型用途：
 - 包裝新 LLM 供應商（例：Anthropic、本地 gguf）
 - 做 Agent / workflow（自己管 tool-loop、狀態機）
 - 接非 LLM 介面（智慧家居、資料庫查詢）
 - 當 proxy / router（根據 body 內容轉到不同後端）
+
+公司內部實例：`process_insight` Pipe（製程數據洞察 Agent）就是走這條路做的。
 
 ---
 

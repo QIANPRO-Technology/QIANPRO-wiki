@@ -5,18 +5,18 @@ sidebar_label: Tools 全分類
 sidebar_position: 2
 ---
 
-# Tools 全分類
+# 企業問答PoC 的 Tools 整合特性
 
-很多人（包含我）一開始以為「Tools 就是一個東西」，其實 OpenWebUI 的 **Tools 是一個傘狀概念**，底下包含 **六種不同實作**。放在不同 UI 位置、走不同協定、安全性也不一樣。這一篇把六類**一次講清楚**，後面寫 Plugin 時才不會混淆。
+**企業問答PoC 具有 6 類 Tools 整合特性**，不是單一種東西。很多人（包含我）一開始以為「Tools 就是一個東西」，實際上底下包含 **六種不同實作**：有的跑在企業問答PoC 容器內（Python 腳本），有的連外部 HTTP 服務（MCP / OpenAPI），有的是平台內建功能。放在不同 UI 位置、走不同協定、安全性也不一樣。這一篇把企業問答PoC 支援的六類 Tools **一次講清楚**，後面寫 Plugin 時才不會混淆。
 
 ---
 
-## 六類 Tools 一覽
+## 企業問答PoC 支援的六類 Tools
 
 | 類型 | UI 位置 | 執行位置 | 協定 | 本質 |
 |---|---|---|---|---|
-| 1. **Native Features** | ⚙️ 內建開關 | OpenWebUI 容器內 | 框架內部 | 平台本身寫死的功能 |
-| 2. **Workspace Tools** | 工作區 → Tools | OpenWebUI **容器內** | Python class Tools | 管理員寫的 `.py` 腳本 |
+| 1. **Native Features** | ⚙️ 內建開關 | 企業問答PoC 容器內 | 框架內部 | 平台本身寫死的功能 |
+| 2. **Workspace Tools** | 工作區 → Tools | 企業問答PoC **容器內** | Python class Tools | 管理員寫的 `.py` 腳本 |
 | 3. **Native MCP (HTTP)** | 管理員 → 外部工具 | **外部 server** | MCP Streamable HTTP | 跑遠端 MCP 伺服器 |
 | 4. **MCP via MCPO Proxy** | 管理員 → 外部工具 | 外部 stdio + MCPO | stdio / SSE → OpenAPI | 把 Claude Desktop 類的 MCP 轉進來 |
 | 5. **OpenAPI Servers** | 管理員 → 外部工具 | 外部 REST API | OpenAPI / REST | 任何符合 OpenAPI spec 的服務 |
@@ -24,9 +24,9 @@ sidebar_position: 2
 
 ---
 
-## 1. Native Features（平台內建）
+## 1. Native Features（企業問答PoC 內建功能）
 
-OpenWebUI **核心程式碼**裡寫死的功能，不是 plugin。在**模型設定 / 使用者設定**裡有勾選開關：
+企業問答PoC **核心程式碼**裡寫死的功能，不是 plugin。在**模型設定 / 使用者設定**裡有勾選開關：
 
 - 網路搜尋 (Web Search)
 - URL 抓取 (Fetch URL)
@@ -43,7 +43,7 @@ OpenWebUI **核心程式碼**裡寫死的功能，不是 plugin。在**模型設
 
 ## 2. Workspace Tools（你寫的 Python）
 
-**執行位置**：OpenWebUI **容器內部**，與主站同進程。
+**執行位置**：企業問答PoC **容器內部**，與主站同進程。
 **寫在哪**：工作區 → Tools → 貼 `.py` 原始碼。
 **安裝入口**：上傳 Python / 從社群庫 `openwebui.com/search` 匯入。
 
@@ -63,9 +63,9 @@ class Tools:
         ...
 ```
 
-**特色**：
-- 能 access OpenWebUI 內部模組（`open_webui.models.*`、`generate_chat_completion`）
-- 能讀寫 `/app/backend/data/`
+**企業問答PoC 的 Workspace Tools 特性**：
+- 能 access 企業問答PoC 內部模組（`open_webui.models.*`、`generate_chat_completion`）
+- 能讀寫 `/app/backend/data/`（對話紀錄、上傳檔案、向量庫）
 - type hints → auto JSON schema
 - Valves / UserValves 表單自動生成
 
@@ -76,19 +76,19 @@ class Tools:
 ## 3. Native MCP (Streamable HTTP)
 
 **執行位置**：**外部** MCP server（可能在同台機、可能跨機、可能雲端）。
-**OpenWebUI 版本要求**：0.6.31+
+**企業問答PoC 所需底層版本**：OpenWebUI 0.6.31+
 **設定入口**：管理員設定 → 外部工具 → `+ 新增` → Type 選 **「MCP (Streamable HTTP)」**。
 
 ```
-OpenWebUI  ──  HTTP POST /mcp  ──>  你家 MCP server
-            <──  JSON-RPC over SSE
+企業問答PoC  ──  HTTP POST /mcp  ──>  你家 MCP server
+             <──  JSON-RPC over SSE
 ```
 
-**特色**：
+**企業問答PoC 的 MCP 整合特性**：
 - 不用寫任何 Python
 - MCP server 可用任何語言（Node、Rust、Go...）
-- **支援 OAuth 2.1**（含 DCR 與 static client）
-- 一個 MCP server 暴露多個 tool，OpenWebUI 自動發現
+- **原生支援 OAuth 2.1**（含 DCR 與 static client）
+- 一個 MCP server 暴露多個 tool，企業問答PoC 自動發現
 
 **典型使用場景**：Notion / GitHub / Linear 官方 MCP server 直連。
 
@@ -98,13 +98,13 @@ OpenWebUI  ──  HTTP POST /mcp  ──>  你家 MCP server
 
 ## 4. MCP via MCPO Proxy
 
-**背景**：很多現成的 MCP server（Claude Desktop 那些 `mcp-server-*`）只支援 **stdio transport**，OpenWebUI 吃不到。
+**背景**：很多現成的 MCP server（Claude Desktop 那些 `mcp-server-*`）只支援 **stdio transport**，企業問答PoC 吃不到。
 
-**解法**：架一支 [mcpo](https://github.com/open-webui/mcpo)，把 stdio MCP **轉成 OpenAPI 端點**：
+**解法**：架一支 [mcpo](https://github.com/open-webui/mcpo)，把 stdio MCP **轉成 OpenAPI 端點**讓企業問答PoC 吃：
 
 ```
-OpenWebUI  ──  HTTP (OpenAPI)  ──>  mcpo  ──  stdio  ──>  mcp-server-fetch
-                                   (port 8000)
+企業問答PoC  ──  HTTP (OpenAPI)  ──>  mcpo  ──  stdio  ──>  mcp-server-fetch
+                                     (port 8000)
 ```
 
 **設定入口**：管理員設定 → 外部工具 → Type 選 **「OpenAPI」**（**不是** MCP！注意），URL 指向 mcpo。
@@ -119,12 +119,14 @@ mcpo --port 8000 -- uvx mcp-server-fetch
 
 ---
 
-## 5. OpenAPI Servers（純 REST API）
+## 5. OpenAPI Servers（純 REST API）⭐ 企業整合主力
 
 **執行位置**：外部任何符合 **OpenAPI 3.x spec** 的 REST 服務。
 **設定入口**：管理員設定 → 外部工具 → Type 選 **「OpenAPI」**。
 
-OpenWebUI 會去抓 `/openapi.json`（或指定路徑），**自動把 endpoint 變成一個個 tool**，schema 從 spec 裡解出來。
+企業問答PoC **具有 OpenAPI 自動發現特性**：去抓 `/openapi.json`（或指定路徑），**自動把 endpoint 變成一個個 tool**，schema 從 spec 裡解出來，LLM 就能 function-call。
+
+**企業問答PoC 在公司場景的最大價值**就在這一類 —— **公司既有系統只要符合 OpenAPI（FastAPI、NestJS、Spring Boot 等框架預設就有），幾乎零修改就能掛進企業問答PoC 變成 LLM 能用的工具**。
 
 **典型使用場景**：
 - 公司既有的 ERP / CRM REST API
@@ -188,13 +190,13 @@ OpenWebUI 會去抓 `/openapi.json`（或指定路徑），**自動把 endpoint 
 ## Workspace Tools vs External Tools 常見誤解
 
 **誤解**：「Tools 就是 Tools，差別只是在哪裡啟用」
-**正解**：底層完全不同東西。Workspace Tools 是**你家 OpenWebUI 容器跑的 Python**；External Tools 是**呼叫外部服務**。
+**正解**：底層完全不同東西。Workspace Tools 是**企業問答PoC 容器內跑的 Python**；External Tools 是**呼叫外部服務**。
 
 **影響**：
-- **資料隱私**：Workspace Tools 處理的資料**留在你家伺服器**；External Tools 會把 function 參數送到外部服務。
-- **效能**：Workspace Tools 跟主站同進程，latency 低但吃 OpenWebUI 的 CPU/RAM；External 走網路。
-- **維護**：Workspace Tools 你要自己寫、自己 pip；External 只要 server 規格穩，OpenWebUI 這邊幾乎零維護。
-- **安全**：Workspace Tools 能 access 主站內部資料（可能好可能壞）；External 是隔離邊界清楚。
+- **資料隱私**：Workspace Tools 處理的資料**留在企業問答PoC 伺服器**；External Tools 會把 function 參數送到外部服務。
+- **效能**：Workspace Tools 跟主站同進程，latency 低但吃企業問答PoC 的 CPU/RAM；External 走網路。
+- **維護**：Workspace Tools 你要自己寫、自己 pip；External 只要 server 規格穩，企業問答PoC 這邊幾乎零維護。
+- **安全**：Workspace Tools 能 access 企業問答PoC 內部資料（可能好可能壞）；External 是隔離邊界清楚。
 
 ---
 
@@ -212,6 +214,11 @@ OpenWebUI 會去抓 `/openapi.json`（或指定路徑），**自動把 endpoint 
 
 ## 小結
 
-Tools 不是單一種東西。**企業內部系統整合 90% 會是「OpenAPI Server」而不是 Workspace Tools**（因為既有 API 套進來最快）。Workspace Tools 留給**需要存取 OpenWebUI 內部狀態、或產圖/產檔的重邏輯**。MCP 則適合**跨家軟體共用的第三方服務**。
+**企業問答PoC 的 Tools 整合特性不是單一種東西，而是六條並存的路徑**。公司內部整合實務上：
 
-這一篇看完，其他幾頁（[Tools 開發](./tools)、[MCP](./mcp)）要講的就是各類型的實作細節。
+- **90% 情境 → OpenAPI Server**：既有 REST API（FastAPI / Spring Boot）零修改掛進企業問答PoC
+- **Workspace Tools** 留給：需要存取企業問答PoC 內部狀態、產圖 / 產檔的重邏輯
+- **MCP** 適合：跨家軟體共用的第三方服務（Notion / GitHub / Linear）
+- **Native Features** 能開就開：RAG / Web Search / Code Interpreter 不用自己寫
+
+這一篇看完，其他幾頁（[Workspace Tools 開發](./tools)、[MCP 整合](./mcp)）要講的就是各類型在企業問答PoC 裡的實作細節。

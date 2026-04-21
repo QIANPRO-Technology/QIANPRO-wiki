@@ -7,12 +7,15 @@ sidebar_position: 4
 
 # Filter Functions
 
-**Filter** 是跑在所有對話（或被勾選的模型）上的 **middleware**。三個階段切入：送 LLM 前（`inlet`）、串流中（`stream`）、回應完（`outlet`）。典型用途：
+**企業問答PoC 具有 middleware 攔截特性** —— Filter Function 跑在所有對話（或被勾選的模型）上，在三個階段切入：送 LLM 前（`inlet`）、串流中（`stream`）、回應完（`outlet`）。你能在這幾個時機改 body、改 token、加 audit log、蓋系統提示。
 
+企業問答PoC 實務上用這個做：
 - 翻譯（使用者打中文 → 轉英文餵 LLM → 回來再譯中）
-- 內容審查 / PII 遮蔽
-- 合規紀錄（把所有對話寫 audit log）
-- 注入動態系統提示（例：「列出所有可查文件」）
+- 內容審查 / PII 遮蔽（公司資料合規）
+- 合規紀錄（把所有對話寫 audit log，便於稽核）
+- 注入動態系統提示（例：「列出所有可查文件」、當下知識庫狀態）
+
+公司內部實例：`iso_kb_injector` filter（ISO 知識庫文件清單動態注入）就是走這條路。
 
 ---
 

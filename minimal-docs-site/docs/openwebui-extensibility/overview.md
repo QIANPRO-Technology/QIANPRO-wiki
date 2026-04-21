@@ -7,37 +7,39 @@ sidebar_position: 1
 
 # 企業問答PoC 擴充開發指南
 
-**企業問答PoC**（站點：[webai.qianpro.shop](https://webai.qianpro.shop)）底層為 [OpenWebUI](https://docs.openwebui.com/)，本指南整理自其官方文件 [docs.openwebui.com/features/extensibility](https://docs.openwebui.com/features/extensibility/)，以繁體中文重構，鎖定 **OpenWebUI 0.5+** 的三大擴充入口與兩套外部整合。目標讀者：公司內要動手寫 Agent、Tool、或整合外部系統的工程師。
+**企業問答PoC**（站點：[webai.qianpro.shop](https://webai.qianpro.shop)）是千鉑科技**基於 [OpenWebUI](https://docs.openwebui.com/) 開發**的內部 AI 對話系統。底層框架提供完整的擴充機制，讓我們能在不改動上游程式碼的前提下，把公司的業務邏輯、內部系統、製程資料流程塞進去，變成「會講公司業務的 AI 助手」。
+
+本指南整理**企業問答PoC 具備的擴充特性**與對應的開發方式，目標讀者：公司內要動手寫 Agent、Tool、或整合外部系統的工程師。
 
 ---
 
-## 擴充體系全圖
+## 企業問答PoC 具備的擴充特性
 
-OpenWebUI 的擴充分三層：
+企業問答PoC **具有三層擴充特性**，開發者可依業務需求從最輕量的切入：
 
-1. **Plugin（Python，同進程）** — 寫在 OpenWebUI 容器內、重啟即生效。包含四個子類：
-   - [Tools](./tools) — LLM 用 function calling 呼叫的方法
-   - [Pipe Functions](./pipe-functions) — 自製模型 / Agent（在模型下拉出現）
-   - [Filter Functions](./filter-functions) — middleware（訊息進出攔截）
-   - [Action Functions](./action-functions) — 訊息上的互動按鈕
-2. **外部 HTTP 整合**
-   - [MCP（Streamable HTTP）](./mcp) — Model Context Protocol 伺服器
-3. **獨立 Worker**
-   - [Pipelines](./pipelines) — 外部 Python 服務（port 9099），重運算離線跑
+1. **Plugin 特性（Python，同進程）** — 寫在企業問答PoC 容器內、重啟即生效。包含四個子類：
+   - [Tools](./tools) — 企業問答PoC **可掛載自訂 function，讓 LLM 呼叫**
+   - [Pipe Functions](./pipe-functions) — 企業問答PoC **可定義自製模型 / Agent**，在模型下拉出現
+   - [Filter Functions](./filter-functions) — 企業問答PoC **具備 middleware 特性**，攔截訊息進出
+   - [Action Functions](./action-functions) — 企業問答PoC **支援訊息上的互動按鈕**
+2. **外部 HTTP 整合特性**
+   - [MCP（Streamable HTTP）](./mcp) — 企業問答PoC **原生支援 MCP 協定**，可掛現成 Model Context Protocol 伺服器
+3. **獨立 Worker 特性**
+   - [Pipelines](./pipelines) — 企業問答PoC **可串接獨立 Python 服務**（port 9099），重運算離線跑
 
 ---
 
-## 什麼情境選哪個
+## 什麼情境用企業問答PoC 的哪個擴充點
 
-| 需求 | 推薦 | 原因 |
+| 業務需求 | 對應擴充點 | 為什麼選它 |
 |---|---|---|
-| 讓 LLM 調外部 API / 算個東西 | **Tool** | type hints 自動生成 schema，Native Function Calling 開就能用 |
-| 做一個「模型」讓使用者選 | **Pipe** | 可完整接管請求流程，也能透過 `pipes()` 暴露多變體（Manifold） |
-| 全站自動加系統提示、過敏感字 | **Filter（global）** | inlet/stream/outlet 三階段攔截 |
-| 讓使用者在某模型可選開關 | **Filter（toggle）** | `toggle=True` 出現在 ⚙️ 整合選單 |
-| 訊息下加「匯出 PDF」「重譯」按鈕 | **Action** | 按鈕 + `__event_call__` 彈窗問參數 |
-| 接現有 MCP 伺服器 | **MCP** | Streamable HTTP 直連，OAuth 2.1 支援 |
-| 很吃 CPU/GPU 的模型推論 / RAG | **Pipelines** | 獨立 container，不拖累主站 |
+| 讓 LLM 查公司 ERP / CRM / 資料庫 | **Tool** | 企業問答PoC 具有 function-calling 整合特性，type hints 自動生成 schema |
+| 做一個特定業務的專屬 Agent | **Pipe** | 企業問答PoC 可完整接管請求流程，也能透過 `pipes()` 暴露多變體（Manifold） |
+| 全站自動加系統提示、過敏感字 | **Filter（global）** | 企業問答PoC 的 middleware 特性，inlet/stream/outlet 三階段攔截 |
+| 讓使用者在某模型可選開關 | **Filter（toggle）** | 企業問答PoC 支援 `toggle=True` 出現在 ⚙️ 整合選單 |
+| 訊息下加「匯出 PDF」「重譯」按鈕 | **Action** | 企業問答PoC 支援訊息工具列按鈕 + `__event_call__` 彈窗 |
+| 接現有 MCP 伺服器（Notion / GitHub） | **MCP** | 企業問答PoC 原生支援 Streamable HTTP 與 OAuth 2.1 |
+| 很吃 CPU/GPU 的模型推論 / 大型 RAG | **Pipelines** | 企業問答PoC 可外接獨立 container，不拖累主站 |
 
 ---
 

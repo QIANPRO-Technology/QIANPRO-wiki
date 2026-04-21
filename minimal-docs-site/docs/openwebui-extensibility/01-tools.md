@@ -5,9 +5,11 @@ sidebar_label: Tools
 sidebar_position: 2
 ---
 
-# Tools
+# Workspace Tools 開發
 
-**Tool** 是給 LLM **在對話中 function-call 的方法**。寫在一個 `class Tools` 裡，每個 public async method 都會自動變成一個可呼叫的工具。框架會從 **type hints + docstring** 自動產生 JSON schema，你不用手寫 tool spec。
+**企業問答PoC 具有 Workspace Tools 整合特性** —— 管理員可以上傳一支 Python `.py`，裡面定義的每個 public async method 都會變成 LLM 在對話中能 function-call 的工具。框架會從 **type hints + docstring** 自動生成 JSON schema，不用手寫 tool spec。
+
+這是[六類 Tools](./tools-taxonomy) 中唯一**在企業問答PoC 容器內執行**的 Python 腳本類型，能存取內部資料、呼叫內部 LLM、存取上傳檔案。
 
 ---
 

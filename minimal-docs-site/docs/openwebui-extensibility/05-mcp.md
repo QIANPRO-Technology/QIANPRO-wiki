@@ -7,7 +7,7 @@ sidebar_position: 6
 
 # MCP 整合
 
-從 **OpenWebUI 0.6.31** 起原生支援 **Model Context Protocol（MCP）Streamable HTTP**。你家有現成的 MCP server（Notion、GitHub、內部 CRM...），不需要寫 Python Tool 包一層 —— 直接掛上去就能用。
+**企業問答PoC 原生支援 Model Context Protocol（MCP）Streamable HTTP**（底層 OpenWebUI 0.6.31 起內建）。意思是：你家有現成的 MCP server（Notion、GitHub、內部 CRM…），**不需要寫 Python Tool 包一層** —— 直接在企業問答PoC 掛設定就能用，一個 MCP server 暴露的多個 tool 會被自動發現並呈給 LLM function-call。
 
 ---
 
