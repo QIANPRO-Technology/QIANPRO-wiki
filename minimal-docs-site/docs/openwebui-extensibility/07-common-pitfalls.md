@@ -337,10 +337,41 @@ openwebui-functions/
 
 ---
 
+## Pitfall 6 — v0.9 ORM method 沒加 await
+
+### 反 Pattern
+
+```python
+# ❌ v0.9 之前可以，v0.9 之後 get_users() 已改成 async coroutine
+from open_webui.models.users import Users
+
+async def pipe(self, body, __user__, **_):
+    user = Users.get_user_by_id(__user__["id"])   # 拿到的是 coroutine 物件，不是 User
+    users = Users.get_users(filter={"limit": 30}) # 同上，一樣拿到 coroutine
+    print(user.email)  # AttributeError: 'coroutine' object has no attribute 'email'
+```
+
+### 問題
+
+v0.9 起，企業問答PoC 後端的 ORM 方法（`Users.*`、`Chats.*`、`Models.*` 等）**全面改成 async**。直接呼叫拿到的是 coroutine 物件而非結果，行為完全錯誤且難以 debug（不會立刻 crash，但後續操作在 None/coroutine 上）。
+
+### 官方正統
+
+```python
+# ✅ 一律加 await
+user = await Users.get_user_by_id(__user__["id"])
+users = await Users.get_users(filter={"order_by": "created_at", "direction": "asc"}, skip=0, limit=30)
+```
+
+**判斷方式**：如果 `type(result)` 是 `<class 'coroutine'>` 就代表忘了加 `await`。
+
+---
+
 ## 其他值得注意的小陷阱
 
 | 陷阱 | 影響 | 修法 |
 |---|---|---|
+| **v0.9 ORM 方法忘記 await** | 拿到 coroutine 物件，後續操作靜默錯誤 | 所有 `Users.*`、`Chats.*` 等 model method 一律 `await` |
 | 用 `message` event 串流 markdown | Native mode 會被覆蓋 | 改用 `status` 事件 + 最後一次回整段 |
 | 自己 parse `__user__` 的 token | 不安全、token 會過期 | 用 `__user__['oauth_token']`（自動 refresh） |
 | docstring 指定 `requirements:` 正式環境也裝 | 多 worker race condition、版本衝突 | 相依 bake 到 image，關 `ENABLE_PIP_install_FRONTMATTER_REQUIREMENTS` |

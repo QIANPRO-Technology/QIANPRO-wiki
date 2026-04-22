@@ -7,11 +7,11 @@ sidebar_position: 2
 
 # 企業問答PoC 的 Tools 整合特性
 
-**企業問答PoC 具有 6 類 Tools 整合特性**，並非單一種機制。實作上「Tools」是一個**傘狀概念**，底下涵蓋 **六種不同類型**：有的跑在企業問答PoC 容器內（Python 腳本），有的連外部 HTTP 服務（MCP / OpenAPI），有的是平台內建功能。六類放在不同 UI 位置、走不同協定、安全性也不同。本章列出企業問答PoC 支援的六類 Tools 及其各自的適用情境，讓後續撰寫 Plugin 時能正確選型。
+**企業問答PoC 具有 9 類 Tools 整合特性**（v0.9 新增 Automation Tools、Task Management Tool、Calendar Builtin Tools），並非單一種機制。實作上「Tools」是一個**傘狀概念**，底下涵蓋 **九種不同類型**：有的跑在企業問答PoC 容器內（Python 腳本），有的連外部 HTTP 服務（MCP / OpenAPI），有的是平台內建功能，有的是 v0.9 新加的排程自動化工具。各類放在不同 UI 位置、走不同協定、安全性也不同。本章列出企業問答PoC 支援的工具類型及其各自的適用情境，讓後續撰寫 Plugin 時能正確選型。
 
 ---
 
-## 企業問答PoC 支援的六類 Tools
+## 企業問答PoC 支援的九類 Tools
 
 | 類型 | UI 位置 | 執行位置 | 協定 | 本質 |
 |---|---|---|---|---|
@@ -21,6 +21,9 @@ sidebar_position: 2
 | 4. **MCP via MCPO Proxy** | 管理員 → 外部工具 | 外部 stdio + MCPO | stdio / SSE → OpenAPI | 把 Claude Desktop 類的 MCP 轉進來 |
 | 5. **OpenAPI Servers** | 管理員 → 外部工具 | 外部 REST API | OpenAPI / REST | 任何符合 OpenAPI spec 的服務 |
 | 6. **Open Terminal** | Settings → Integrations | 獨立 Docker container | Shell | 給 LLM 的 sandboxed shell（需另部署） |
+| 7. **Automation Tools** ⭐v0.9 | 對話中（啟用後） | 企業問答PoC 容器內 | 內建 function calling | LLM 可建立 / 管理排程自動化任務 |
+| 8. **Task Management Tool** ⭐v0.9 | 對話中（啟用後） | 企業問答PoC 容器內 | 內建 function calling | LLM 在對話中建立、追蹤、更新任務清單 |
+| 9. **Calendar Builtin Tools** ⭐v0.9 | Calendar 工作區 | 企業問答PoC 容器內 | 內建 function calling | 4 個日曆事件工具（建立、查詢、提醒等） |
 
 ---
 
@@ -212,13 +215,49 @@ mcpo --port 8000 -- uvx mcp-server-fetch
 
 ---
 
+## 7. Automation Tools（v0.9 新增）
+
+v0.9 起，若管理員啟用 `ENABLE_AUTOMATIONS=true`，LLM 可在對話中呼叫這些內建工具：
+
+- `create_automation`：建立排程任務（每日摘要、定期報表）
+- `list_automations`：列出現有排程
+- `update_automation`：修改排程設定
+- `delete_automation`：刪除排程
+- `run_automation`：手動觸發一次
+
+相關 env vars：
+| 變數 | 說明 | 預設 |
+|---|---|---|
+| `ENABLE_AUTOMATIONS` | 啟用排程自動化功能 | `false` |
+| `AUTOMATION_MAX_COUNT` | 每位非管理員最多幾條排程 | 無限制 |
+| `AUTOMATION_MIN_INTERVAL` | 最短排程間隔（防爆量） | - |
+| `SCHEDULER_POLL_INTERVAL` | scheduler 輪詢間隔 | - |
+
+---
+
+## 8–9. Task Management Tool & Calendar Tools（v0.9 新增）
+
+**Task Management Tool**：LLM 可在對話中建立任務清單、更新狀態、標記完成，將複雜需求拆解成可追蹤的步驟。
+
+**Calendar Builtin Tools**：v0.9 加入 Calendar 工作區，4 個內建 tool：建立事件、查詢事件、設定提醒、刪除事件。
+
+相關 env vars：
+| 變數 | 說明 |
+|---|---|
+| `ENABLE_CALENDAR` | 啟用日曆工作區（預設 false） |
+| `CALENDAR_ALERT_LOOKAHEAD_MINUTES` | 提前幾分鐘推送提醒通知 |
+| `USER_PERMISSIONS_FEATURES_CALENDAR` | RBAC：控制哪些角色可使用 Calendar |
+
+---
+
 ## 小結
 
-**企業問答PoC 的 Tools 整合特性不是單一種東西，而是六條並存的路徑**。公司內部整合實務上：
+**企業問答PoC 的 Tools 整合特性不是單一種東西，而是九條並存的路徑**（v0.9 新增三類）。公司內部整合實務上：
 
 - **90% 情境 → OpenAPI Server**：既有 REST API（FastAPI / Spring Boot）零修改掛進企業問答PoC
 - **Workspace Tools** 留給：需要存取企業問答PoC 內部狀態、產圖 / 產檔的重邏輯
 - **MCP** 適合：跨家軟體共用的第三方服務（Notion / GitHub / Linear）
 - **Native Features** 能開就開：RAG / Web Search / Code Interpreter 不用自己寫
+- **Automation / Calendar Tools**（v0.9）：讓 AI 代勞定期任務、排程提醒
 
-這一篇看完，其他幾頁（[Workspace Tools 開發](./tools)、[MCP 整合](./mcp)）要講的就是各類型在企業問答PoC 裡的實作細節。
+這一篇看完，其他幾頁（[Workspace Tools 開發](./tools)、[MCP 整合](./mcp)、[Automations & Calendar](./automations-calendar)）要講的就是各類型在企業問答PoC 裡的實作細節。

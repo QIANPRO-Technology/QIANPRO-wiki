@@ -253,8 +253,52 @@ class Pipe:
 
 ---
 
+## Rich UI embed（v0.9 新 Pattern）
+
+v0.9 起，Pipe function 可在回覆訊息中嵌入互動式 HTML 元件，搭配自訂 tool calling 做多步驟互動：
+
+```python
+async def pipe(self, body: dict, __event_emitter__=None) -> str:
+    # 發送含 HTML 表單的訊息
+    await __event_emitter__({
+        "type": "message",
+        "data": {
+            "content": """
+<details>
+<summary>調整參數</summary>
+
+```json
+{"tool": "render_chart", "args": {"chart_type": "pareto", "column": "Defect"}}
+```
+
+</details>
+""",
+        },
+    })
+    return ""
+```
+
+這讓 Pipe 可以不走 LLM 決策、直接用 UI 互動驅動 tool call，適合確定性高的分析工作流。**詳情** 見官方 [Rich UI embed 文件](https://docs.openwebui.com/features/extensibility/plugin/development/)。
+
+---
+
+## outlet() 的 streaming vs API 行為（v0.9 行為釐清）
+
+`outlet()` 在**不同呼叫路徑下行為不同**，v0.9 官方已重寫文件釐清：
+
+| 呼叫來源 | outlet() 是否觸發 |
+|---|:-:|
+| 企業問答PoC Web UI（對話） | ✅ 觸發 |
+| 外部 `/api/chat/completions` API | ❌ **不會觸發**（除非 client 額外打 `/api/chat/completed`） |
+| Streaming response 途中 | ⚠️ outlet 只在**整個 response 完成後**才跑，不是每個 chunk |
+
+**影響**：若 Pipe 的關鍵後處理邏輯放在 outlet，外部 API caller 會繞過它。需要百分百觸發時把邏輯移到 inlet 或做獨立 pipeline。
+
+---
+
 ## 限制與陷阱
 
+- **pipe() 必須 async**：v0.9 後端全面走 async，同步 `pipe()` 可能阻塞或在未來版本失效；**務必加 `async`**
 - **安全**：Pipe 跑任意 Python，只能讓管理員安裝，**審 source**
 - **HTTP stream 斷線**：Cloudflare Tunnel / reverse proxy 預設可能 100 s idle timeout；串流太久沒 yield 會斷。週期性 yield `" "` 或發 status 保活
 - **錯誤處理**：`try/except` 包住外部呼叫，回有意義的錯誤字串

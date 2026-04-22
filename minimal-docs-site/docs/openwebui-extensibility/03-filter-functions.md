@@ -84,6 +84,12 @@ class Filter:
 | `stream` | 每個 token chunk 回來時 | ✅ 每 chunk | ✅ 每 chunk |
 | `outlet` | 完整回覆後 | ✅ 每次 | ❌ **不會跑**（除非 client 另外打 `/api/chat/completed`） |
 
+:::warning outlet() 行為 v0.9 重新確認
+`outlet()` 只在 **streaming 全部完成後**才被呼叫，**不是每個 chunk 都跑**。若誤以為 outlet 能攔截 streaming 中的每個 token，邏輯會完全不對。
+
+要在 streaming 途中攔截每個 token，請使用 **`stream()`** 方法。
+:::
+
 **重要**：若 filter 主要工作在 `outlet`（例：log 完整對話），外部 API caller 會繞過它。需要百分百觸發時把邏輯搬到 `inlet` 或另做 log pipeline。
 
 ---
