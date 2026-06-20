@@ -38,9 +38,9 @@ jobs:
           tar -czf /tmp/wiki-build.tgz -C minimal-docs-site/build .
 
           scp -i /tmp/deploy_key -o StrictHostKeyChecking=no \
-            /tmp/wiki-build.tgz tsic@100.99.111.69:/tmp/
+            /tmp/wiki-build.tgz harry@100.88.152.51:/tmp/
 
-          ssh -i /tmp/deploy_key -o StrictHostKeyChecking=no tsic@100.99.111.69 "
+          ssh -i /tmp/deploy_key -o StrictHostKeyChecking=no harry@100.88.152.51 "
             rm -rf ~/services/qianpro-wiki/dist/*
             tar -xzf /tmp/wiki-build.tgz -C ~/services/qianpro-wiki/dist/
             rm /tmp/wiki-build.tgz
